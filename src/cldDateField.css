@@ -1,0 +1,56 @@
+input{
+    height: 32px;
+    border: none;
+    box-shadow: 0px 0px 3px 0px rgb(0 0 0 / 75%);
+    text-transform: uppercase;
+    font-size: 16px;
+    color: #797979;
+    width: 100%;
+    text-align: center;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.hideSubmitBtn{
+    display: none;
+}
+
+.cld_errmsg{
+    color: red;
+    font-size: 13px;
+    height: 15px;
+}
+
+.hidecld_errmsg{
+    width: fit-content;
+    transition: visibility 3s;
+    visibility: hidden;
+}
+
+.cld_fieldContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cld_fieldContainer > div:first-child{
+    margin-right: 10%;
+    width: 100%;
+}
+
+.cld_fieldContainer > div:nth-child(2){
+    margin-left: 10%;
+    width: 100%;
+}
+
+.cld_startDateFieldOnly{
+    display: flex;
+    justify-content: center;
+}
+
+.cld_startDateFieldOnly > div:first-child{
+    width: 30%;
+}
