@@ -5,8 +5,9 @@ input{
     text-transform: uppercase;
     font-size: 16px;
     color: #797979;
-    width: 100%;
+    width: 99.5%;
     text-align: center;
+    border-radius: 3px;
 }
 
 input[type="date"]::-webkit-inner-spin-button,
@@ -34,6 +35,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .cld_fieldContainer{
     display: flex;
     justify-content: space-between;
+    padding: 0 2px;
 }
 
 .cld_fieldContainer > div:first-child{

@@ -3,8 +3,8 @@ import "./cldDateField.css";
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 function CalenderField(props) {
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
     const [errMsg_start, setErrMsg_start] = useState();
     const [errMsg_end, setErrMsg_end] = useState();
     const [selectedDateFromField, setSelectedDateFromField] = useState({
