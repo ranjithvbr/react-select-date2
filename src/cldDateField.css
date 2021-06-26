@@ -20,16 +20,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: none;
 }
 
+.cld_errmsgContainer{
+    display: flex;
+    height: 15px;
+    justify-content: space-between;
+}
+
+.cld_startaerrmsg{
+    display: flex;
+    height: 15px;
+    justify-content: center;
+}
+
 .cld_errmsg{
     color: red;
-    font-size: 13px;
-    height: 15px;
+    font-size: 11px;
+    white-space: nowrap;
+    font-weight: 500;
 }
 
 .hidecld_errmsg{
     width: fit-content;
-    transition: visibility 3s;
-    visibility: hidden;
+    /* transition: visibility 3s; */
+    /* visibility: hidden; */
 }
 
 .cld_fieldContainer{
@@ -54,5 +67,5 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .cld_startDateFieldOnly > div:first-child{
-    width: 30%;
+    width: 100%;
 }

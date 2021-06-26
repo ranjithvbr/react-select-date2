@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import CalenderField from './cldDateField';
+import { getDisableDate, getDisableDateForArrow, getDisableYear } from "./cldDisable";
 import './App.css';
 
 const currentdate = new Date();
@@ -7,8 +8,9 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function CustomCalender() {
-  const findDaysInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth() + 1, 0).getDate()
-  const findStartDayInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth(), 1).getDay()
+  const findDaysInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth() + 1, 0).getDate();
+  const findStartDayInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth(), 1).getDay();
+  const disableState = "";
 
   const [getDate, setGetDate] = useState(findDaysInMonth);
   const [getStartDay, setGetStartDay] = useState(findStartDayInMonth);
@@ -21,10 +23,29 @@ function CustomCalender() {
   const [inRange, setInRange] = useState()
   const [startDate, setStartDate] = useState("");
   const [multipleDate, setMultipleDate] = useState("");
+  const [disableArrow, setDisableArrow] = useState();
   const [startAndendDate, setStartAndendDate] = useState({
     startDate: "",
     endDate: ""
   });
+  const [startAndendYearOptions, setstartAndendYearOptions] = useState({
+    startYearOption: 1921,
+    endYearOption: 2100
+  });
+
+  const handleDisableArrow = useCallback(() => {
+    setDisableArrow(getDisableDateForArrow(dynMonth, dynYear));
+  }, [dynMonth, dynYear])
+
+  useEffect(() => {
+    handleDisableArrow();
+  }, [handleDisableArrow])
+
+  useEffect(() => {
+    if (disableState === "past" || disableState === "future") {
+      setstartAndendYearOptions(getDisableYear(disableState));
+    }
+  }, [])
 
   const rangeCalculater = useCallback((id) => {
     let idDate = new Date(id)
@@ -124,20 +145,24 @@ function CustomCalender() {
         let dateTypeId = dynYear + "-" + dynMonth + "-" + (i - getStartDay)
         // css for range startDate and endDate.
         let rangeHightLight = (rangeId[0] === dateId ? "cld_highlightFirstNum" : rangeId[rangeId.length - 1] === dateId ? "cld_highlightLastNum" : rangeId.includes(dateId) && "cld_highlightNum")
-        // firstOrderdate css 
+        // firstOrderdate css.
         let rangeStartDate = startAndendDate.startDate && startAndendDate.startDate
         if (rangeId.length === 1 && rangeStartDate.getDate() > Number(inRange)) {
           rangeHightLight = rangeId[0] === dateId && "cld_highlightLastNum"
         }
         // css for range, single and multiple.
-        let highLightNum = `${selectType === "range" ? rangeHightLight : baseId.includes(dateId) && "cld_highlightNumCircle"}`
-        // startDate and endDate between ranges
+        let highLightNum = `${selectType === "range" ? `${rangeHightLight} cld_range` : baseId.includes(dateId) && "cld_highlightNumCircle"}`
+        // startDate and endDate between ranges.
         let inRangeCondition = rangeId.length === 1 && (dynYear === rangeStartDate.getFullYear() && dynMonth === rangeStartDate.getMonth() + 1) ? ((Number(inRange) >= (i - getStartDay) && rangeStartDate.getDate() < (i - getStartDay) && "cld_inrange cld_inrangeLastIndex") || (Number(inRange) <= (i - getStartDay) && rangeStartDate.getDate() > (i - getStartDay) && "cld_inrange cld_inrangeFirstIndex")) : rangeStartDate < new Date(dynYear + "-" + dynMonth + "-" + Number(inRange)) ? (Number(inRange) >= (i - getStartDay) && "cld_inrange cld_inrangeLastIndex") : (Number(inRange) <= (i - getStartDay) && "cld_inrange cld_inrangeFirstIndex")
+        // disableDate
+        let disableDate = getDisableDate(new Date(dateTypeId), disableState)
+        // css classess
+        let cssClassname = disableDate ? disableDate : highLightNum + " " + (selectType !== "range" && "cld_cellSingleMultiple") + " " + (rangeId.length !== 1 && "cld_cellactive") + " " + inRangeCondition
         // push td
-        noOfDate.push(<td onMouseEnter={rangeId.length === 1 ? handleMouseEnter : null} data-info={i - getStartDay} onClick={() => highLight(selectType === "range" ? dateTypeId : dateId, dateTypeId)}>
-          <div data-info={i - getStartDay} className={`${highLightNum} cld_cellHover ${rangeId.length !== 1 && "cld_cellactive"} ${inRangeCondition}`}>{i - getStartDay}</div>
+        noOfDate.push(<td onMouseEnter={!disableDate && rangeId.length === 1 ? handleMouseEnter : null} data-info={i - getStartDay} onClick={disableDate ? null : () => highLight(selectType === "range" ? dateTypeId : dateId, dateTypeId)}>
+          <div data-info={i - getStartDay} className={`cld_cellHover ${cssClassname}`}>{i - getStartDay}</div>
         </td>)
-        console.log(dateId, baseId, getStartDay, getDate, dynMonth, dynYear,rangeStartDate, rangeStartDate && rangeStartDate.getFullYear(),rangeStartDate && rangeStartDate.getMonth(),new Date(dynYear + "-" + dynMonth + "-" + Number(inRange)) , "basevalue")
+        console.log(dateId, baseId, getStartDay, getDate, dynMonth, dynYear, rangeStartDate, rangeStartDate && rangeStartDate.getFullYear(), rangeStartDate && rangeStartDate.getMonth(), new Date(dynYear + "-" + dynMonth + "-" + Number(inRange)), disableDate, "basevalue")
       }
     }
 
@@ -160,20 +185,16 @@ function CustomCalender() {
       }
     }
     setCalenderDates(trDate)
-  }, [baseId, dynMonth, dynYear, getDate, getStartDay, highLight, inRange, rangeId, selectType, startAndendDate.startDate])
+  }, [baseId, disableState, dynMonth, dynYear, getDate, getStartDay, highLight, inRange, rangeId, selectType, startAndendDate.startDate])
 
   const yearOptions = useCallback(() => {
     let yearoption = []
-    for (let n = 0; n <= 20; n++) {
-      // 1921 - 2100
-      if (n <= 10) {
-        yearoption.unshift(dynYear - n)
-      } else {
-        yearoption.push(dynYear + n - 10)
-      }
+    let { startYearOption, endYearOption } = startAndendYearOptions;
+    for (let n = startYearOption; n <= endYearOption; n++) {
+      yearoption.push(n)
     }
     return yearoption
-  }, [dynYear])
+  }, [startAndendYearOptions])
 
   useEffect(() => {
     handleRenderDate()
@@ -185,6 +206,7 @@ function CustomCalender() {
   };
 
   const handleLeft = () => {
+    handleDisableArrow()
     setGetDate(new Date(dynYear, dynMonth - 1, 0).getDate())
     setGetStartDay(new Date(dynYear, dynMonth - 2, 1).getDay())
     if (dynMonth === 1) {
@@ -196,6 +218,7 @@ function CustomCalender() {
   }
 
   const handleRight = () => {
+    handleDisableArrow()
     setGetDate(new Date(dynYear, dynMonth + 1, 0).getDate())
     setGetStartDay(new Date(dynYear, dynMonth, 1).getDay())
     if (dynMonth === 12) {
@@ -292,18 +315,17 @@ function CustomCalender() {
     }
   }
 
-  console.log(startDate, multipleDate, startAndendDate, rangeId, "actualDate")
-
+  console.log(startDate, multipleDate, startAndendDate, rangeId, dynYear, dynMonth, "actualDate")
   return (
     <div className="cld_container">
       <div>
-        <CalenderField selectedDate={(da) => setFieldValue(da)} selectType={selectType} selectedDateFromCld={selectType === "single" ? startDate : selectType === "multiple" ? multipleDate[multipleDate.length - 1] : startAndendDate} />
+        <CalenderField selectedDate={(da) => setFieldValue(da)} selectType={selectType} selectedDateFromCld={selectType === "single" ? startDate : selectType === "multiple" ? multipleDate[multipleDate.length - 1] : startAndendDate} disableState={disableState} />
         <div className="cld_btnAlign">
-          <button onClick={() => handleLeft()}>{"<"}</button>
+          <button disabled={(disableState === "past" && disableArrow) || (dynYear === 1921 && dynMonth === 1)} onClick={() => handleLeft()}>{"<"}</button>
           <div className="cld_showDays">
             <select id="selectMonth" value={dynMonth - 1} onChange={(e) => handleSelectMonth(e)}>
               {months.map((data, index) => {
-                return <option key={index} value={index}>{data}</option>
+                return <option disabled={disableState === "past" ? currentdate.getFullYear() === dynYear && currentdate.getMonth() > index : disableState === "future" ? currentdate.getFullYear() === dynYear && currentdate.getMonth() < index : false} key={index} value={index}>{data}</option>
               })}
             </select>
             <select id="selectYear" value={dynYear} onChange={(e) => handleSelectYear(e)}>
@@ -312,10 +334,10 @@ function CustomCalender() {
               })}
             </select>
           </div>
-          <button onClick={() => handleRight()}>{">"}</button>
+          <button disabled={(disableState === "future" && disableArrow) || (dynYear === 2100 && dynMonth === 12)} onClick={() => handleRight()}>{">"}</button>
         </div>
       </div>
-      <table onMouseLeave={()=>setInRange()}>
+      <table onMouseLeave={() => setInRange()}>
         <thead>
           <tr>{days.map((d, index) => <th key={index}>{d}</th>)}</tr>
         </thead>
