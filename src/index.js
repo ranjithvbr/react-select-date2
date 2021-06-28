@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import CustomCalender from './Calender/calender';
 import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <CustomCalender />
   </React.StrictMode>,
   document.getElementById('root')
 );

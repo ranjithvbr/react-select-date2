@@ -1,29 +1,29 @@
-.cld_container{
-  width: 35%;
-  margin:5% auto;
+.cld_container {
+  width: 30%;
+  margin: 5% auto;
   box-shadow: 0px 1px 5px 1px #dddddd;
   padding: 1%;
   border-radius: 5px;
   background: #f1f1f1;
 }
 
-.cld_btnAlign{
+.cld_btnAlign {
   display: flex;
   justify-content: space-between;
   margin: 6px 0;
 }
 
-.cld_btnAlign button{
+.cld_btnAlign button {
   cursor: pointer;
 }
 
-.cld_showDays{
+.cld_showDays {
   display: flex;
   font-size: 18px;
   font-weight: bold;
 }
 
-.cld_showDays select:first-child{
+.cld_showDays select:first-child {
   margin-right: 10px;
 }
 
@@ -35,12 +35,12 @@
   padding-inline-end: 10px;
 }
 
-.cld_highlightNum{
+.cld_highlightNum {
   background-color: #3ecf8e;
   color: #ffffff;
 }
 
-.cld_highlightLastNum{
+.cld_highlightLastNum {
   color: #ffffff;
   background-color: #3ecf8e;
   border-top-right-radius: 10px;
@@ -48,24 +48,24 @@
   padding-inline-start: 10px;
 }
 
-.cld_highlightNumCircle{
+.cld_highlightNumCircle {
   background-color: #3ecf8e;
   border-radius: 20px;
   color: #ffffff;
   margin: 0 5px;
 }
 
-.cld_inrange{
+.cld_inrange {
   background-color: #b8ead4;
 }
 
-td:hover .cld_inrangeLastIndex{
+td:hover .cld_inrangeLastIndex {
   background-color: #b8ead4;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
-td:hover .cld_inrangeFirstIndex{
+td:hover .cld_inrangeFirstIndex {
   background-color: #b8ead4;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -83,7 +83,7 @@ option {
   font-size: small;
 }
 
-select:hover{
+select:hover {
   cursor: pointer;
 }
 
@@ -96,17 +96,18 @@ table {
   table-layout: fixed;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #f1f1f1;
-  padding:  8px;
+  padding: 8px;
   text-align: center;
 }
 
-th{
+th {
   font-weight: 500;
 }
 
-td{
+td {
   padding: 8px 0px;
   cursor: pointer;
 }
@@ -116,24 +117,30 @@ td{
   padding: 3px;
 }
 
-.cld_cellSingleMultiple{
+.cld_cellSingleMultiple {
   margin: 0 5px;
 }
 
-.cld_range td:nth-child(n+7) div {
+td:nth-child(n + 7) div.cld_highlightNum,
+td:nth-child(n + 7) div.cld_highlightFirstNum,
+td:nth-child(n + 7) div.cld_highlightLastNum,
+td:nth-child(n + 7) div.cld_inrange {
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
   margin-right: 5px;
 }
 
-.cld_range td:nth-child(7n+1) div {
+td:nth-child(7n + 1) div.cld_highlightNum,
+td:nth-child(7n + 1) div.cld_highlightLastNum,
+td:nth-child(7n + 1) div.cld_highlightFirstNum,
+td:nth-child(7n + 1) div.cld_inrange {
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
   margin-left: 5px;
 }
 
 td:hover > .cld_cellHover.cld_cellactive:after {
-  content: '';
+  content: "";
   position: absolute;
   top: -2px;
   right: 0px;
@@ -143,8 +150,10 @@ td:hover > .cld_cellHover.cld_cellactive:after {
   border: 1px solid #008000;
 }
 
-.cld_disableDate{
+.cld_disableDate {
   color: #b4b4b4;
-  cursor: inherit;
 }
- 
+
+.cld_disablebgColor {
+  background: #e6e6e6;
+}
