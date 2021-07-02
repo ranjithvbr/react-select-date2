@@ -125,7 +125,7 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
       } else if (new Date(endDate) < new Date(minDate)) {
         setErrMsgEnd(`Date must be ${formatDay(new Date(minDate), true)} or later`);
       } else if (new Date(startDate) >= new Date(endDate)) {
-        setErrMsgEnd("End Date should be smaller than start Date");
+        setErrMsgEnd("End Date should be greater than start Date");
         // setEndDate(selectedDateFromField.endDateFromField)
       } else if (!startDate) {
         setStartDate(endDate);

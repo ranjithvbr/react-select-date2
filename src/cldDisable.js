@@ -7,15 +7,15 @@ const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
  * @returns {string} disable date
  */
 export function getDisableDate(renderDate, disableState) {
-
   let disableRange;
   if (disableState === "past") {
-    let subractOneDay;
-    subractOneDay = new Date(renderDate);
+    const subractOneDay = new Date(renderDate);
     subractOneDay.setDate(subractOneDay.getDate() + 1);
     disableRange = subractOneDay < new Date() && "cld_disableDate";
   } else if (disableState === "future") {
     disableRange = renderDate >= new Date() && "cld_disableDate";
+  } else {
+    disableRange = "";
   }
   return disableRange;
 }
@@ -28,10 +28,10 @@ export function getDisableDate(renderDate, disableState) {
  */
 export function getDisableDateForArrow(disableState, month, year) {
   let disableArrow;
-  if(disableState === "past"){
-    disableArrow = currentDate.getMonth() >= month - 1 && currentDate.getFullYear() >= year ? true : false
-  }else if(disableState === "future"){
-    disableArrow = currentDate.getMonth() <= month - 1 && currentDate.getFullYear() <= year ? true : false
+  if (disableState === "past") {
+    disableArrow = !!(currentDate.getMonth() >= month - 1 && currentDate.getFullYear() >= year);
+  } else if (disableState === "future") {
+    disableArrow = !!(currentDate.getMonth() <= month - 1 && currentDate.getFullYear() <= year);
   }
   return disableArrow;
 }
@@ -100,7 +100,7 @@ export function getDisableDateForField(disableState) {
  * @param {string} disableCertainDate contain a disable-state past || future
  * @returns {string} disable date
  */
- export function getDisableCertainDate(renderDate, disableCertainDate) {
+export function getDisableCertainDate(renderDate, disableCertainDate) {
   let disableCerDate;
   disableCertainDate.forEach((dt) => {
     const formatDt = new Date(dt);
@@ -110,26 +110,35 @@ export function getDisableDateForField(disableState) {
       formatDt.getFullYear() === renderDate.getFullYear()
     ) {
       disableCerDate = "cld_disableDate";
+    } else {
+      disableCerDate = "";
     }
   });
   return disableCerDate;
 }
 
 /**
- * 
+ * @param {string} disableCertainDate contain a disable-state past || future
+ * @param {string} dateTypeId contain a render date
+ * @param {string} rangeStartDate contain a date
+ * @param {string} rangeEndDate contain a date
+ * @returns {string} disable date
  */
 export function getDisableWhenRange(disableCertainDate, dateTypeId, rangeStartDate, rangeEndDate) {
+  const disableCertainDateFormat = [];
 
- let disableCertainDateFormat = []
-
-  disableCertainDate.forEach((dt)=>{
-    disableCertainDateFormat.push(formatDay(new Date(dt)))
-  })
+  disableCertainDate.forEach((dt) => {
+    disableCertainDateFormat.push(formatDay(new Date(dt)));
+  });
   let disableWhenRange;
-  if((dateTypeId > rangeStartDate && dateTypeId < rangeEndDate) &&  disableCertainDateFormat.includes(formatDay(new Date(dateTypeId)))){
-    disableWhenRange = "cld_disablebgColor"
-  }else{
-    disableWhenRange = ""
+  if (
+    dateTypeId > rangeStartDate &&
+    dateTypeId < rangeEndDate &&
+    disableCertainDateFormat.includes(formatDay(new Date(dateTypeId)))
+  ) {
+    disableWhenRange = "cld_disablebgColor";
+  } else {
+    disableWhenRange = "";
   }
   return disableWhenRange;
 }

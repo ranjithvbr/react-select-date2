@@ -8,6 +8,7 @@ import {
   getDisableWhenRange,
 } from "../cldDisable";
 import { SelectMonthField, SelectYearField } from "../Fields/cldSelectField";
+import { DateRange } from "./dateRange";
 import "./calender.css";
 
 const currentdate = new Date();
@@ -21,12 +22,30 @@ function CustomCalender() {
   const findStartDayInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth(), 1).getDay();
   const disableState = "";
   // const disableCertainDate = useMemo(() => {
-  //   return ["2021-06-04", "2021-06-07", "2021-06-8", "2021-06-15", "2021-06-21"];
+  //   return ["2021-06-04", "2021-06-07", "2021-06-8", "2021-06-15", "2020-06-21"];
   // }, []);
   const disableCertainDate = useMemo(() => {
     return [];
   }, []);
-  const [selectType] = useState("range");
+  // const singleSlots = useMemo(() => {
+  //   return [
+  //     { date: "2021-06-03", avaliableSlot: 7 },
+  //     { date: "2021-06-05", avaliableSlot: 1 },
+  //     { date: "2021-06-15", avaliableSlot: 7 },
+  //     { date: "2021-06-07", avaliableSlot: 0 },
+  //     { date: "2021-06-28", avaliableSlot: 2 },
+  //   ];
+  // }, []);
+  const singleSlots = useMemo(()=>{
+    return []
+     }, [])
+  const duelSlots = useMemo(() => {
+    return [{date:"2021-06-02",totalSlot:"30",avaliableSlot: "4"},{date:"2021-06-10",totalSlot:"30",avaliableSlot: "5"},{date:"2021-06-05",totalSlot:"30",avaliableSlot: "6"},{date:"2021-06-02",totalSlot:"30",avaliableSlot: "14"},{date:"2020-06-02",totalSlot:"28",avaliableSlot: "24"},{date:"2021-6-11",totalSlot:"30",avaliableSlot: "0"},{date:"2021-06-25",totalSlot:"50",avaliableSlot: "30"}];
+  }, []);
+  // const duelSlots = useMemo(() => {
+  //   return [];
+  // }, []);
+  const [selectType] = useState("multiple");
   const [getDate, setGetDate] = useState(findDaysInMonth);
   const [getStartDay, setGetStartDay] = useState(findStartDayInMonth);
   const [calenderDates, setCalenderDates] = useState();
@@ -73,29 +92,6 @@ function CustomCalender() {
         }));
         setInRange();
       } else if (rangeId.length === 1) {
-        /**
-         * @param {object} date contain date
-         * @param {number} addupDay to plus one date
-         * @returns {string} returns date
-         */
-        const addDays = (date, addupDay = 1) => {
-          const result = new Date(date);
-          result.setDate(result.getDate() + addupDay);
-          return result;
-        };
-
-        /**
-         * @param {object} start contain startdate
-         * @param {object} end contain enddate
-         * @param {object} range contain the date
-         * @returns {string} returns dateRange
-         */
-        const dateRange = (start, end, range = []) => {
-          if (start > end) return range;
-          const next = addDays(start, 1);
-          return dateRange(next, end, [...range, start]);
-        };
-
         let getStartDate;
         let getEndDate;
         const findGreater = new Date(startAndendDate.startDate) < idDate;
@@ -107,7 +103,7 @@ function CustomCalender() {
           getEndDate = startAndendDate.startDate;
         }
 
-        const range = dateRange(new Date(getStartDate), new Date(getEndDate));
+        const range = DateRange(new Date(getStartDate), new Date(getEndDate));
         const allRangeDate = range.map((date) => `${date.getDate()}${date.getMonth() + 1}${date.getFullYear()}`);
 
         setRangeId(allRangeDate);
@@ -192,9 +188,14 @@ function CustomCalender() {
           rangeHightLight = rangeId[0] === dateId && "cld_highlightLastNum";
         }
         // classname for range, single and multiple
-        const highLightNum = `${
-          selectType === "range" ? `${rangeHightLight || ""}` : baseId.includes(dateId) && "cld_highlightNumCircle"
-        }`;
+        let highLightNum;
+        if (selectType === "range") {
+          highLightNum = rangeHightLight || "";
+        } else if (baseId.includes(dateId)) {
+          highLightNum = "cld_highlightNumCircle";
+        } else {
+          highLightNum = "";
+        }
         // startDate and endDate between ranges
         let inRangeCondition;
         if (rangeId.length === 1) {
@@ -221,12 +222,15 @@ function CustomCalender() {
 
         const disableSpecificDate =
           disableCertainDate.length > 0 ? getDisableCertainDate(new Date(dateTypeId), disableCertainDate) : "";
+        // dualSlots || singleSlots
+        const slotsState = duelSlots.length > 0 || singleSlots.length > 0;
+        const slotClass = slotsState && (selectType === "range" ? "cld_cellHoverMg" : "cld_cellHoverMgbt");
 
-        // wrappe all classname
+        // merge all classname
         const cssClassname =
           disableDate ||
           disableSpecificDate ||
-          `${highLightNum} ${selectType !== "range" ? "cld_cellSingleMultiple" : ""} ${
+          `${highLightNum} ${selectType !== "range" && !slotsState ? "cld_cellSingleMultiple" : ""} ${
             rangeId.length !== 1 && "cld_cellactive"
           } ${inRangeCondition || ""}`;
 
@@ -241,9 +245,16 @@ function CustomCalender() {
             }
             aria-hidden="true"
           >
-            <div data-info={i - getStartDay} className={`cld_cellHover ${showDisableWhenRange} ${cssClassname.trim()}`}>
-              {i - getStartDay}
-            </div>
+            <>
+              {slotsState && <span className="cld_slots cld_availableSlots">{i}</span>}
+              <div
+                data-info={i - getStartDay}
+                className={`${slotClass} cld_cellHover ${showDisableWhenRange} ${cssClassname.trim()}`}
+              >
+                {i - getStartDay}
+              </div>
+              {slotsState && <span className="cld_slots cld_totalSlots">99</span>}
+            </>
           </td>,
         );
       }
@@ -269,17 +280,19 @@ function CustomCalender() {
     }
     setCalenderDates(trDate);
   }, [
-    baseId,
-    disableCertainDate,
-    dynMonth,
-    dynYear,
     getDate,
     getStartDay,
-    highLight,
-    inRange,
+    dynMonth,
+    dynYear,
     rangeId,
-    selectType,
     startAndendDate,
+    inRange,
+    selectType,
+    baseId,
+    disableCertainDate,
+    duelSlots.length,
+    singleSlots.length,
+    highLight,
   ]);
 
   useEffect(() => {
@@ -345,33 +358,10 @@ function CustomCalender() {
    */
   const rangeCalculaterFromField = (id) => {
     if (id.startDateFromField && id.endDateFromField) {
-      /**
-       * @param {object} date contain date
-       * @param {number} addupDay to plus one date
-       * @returns {string} returns date
-       */
-      const addDays = (date, addupDay = 1) => {
-        const result = new Date(date);
-        result.setDate(result.getDate() + addupDay);
-        return result;
-      };
-
-      /**
-       * @param {object} start contain startdate
-       * @param {object} end contain enddate
-       * @param {object} range contain the date
-       * @returns {string} returns dateRange
-       */
-      const dateRange = (start, end, range = []) => {
-        if (start > end) return range;
-        const next = addDays(start, 1);
-        return dateRange(next, end, [...range, start]);
-      };
-
       const getStartDate = id.startDateFromField;
       const getEndDate = id.endDateFromField;
 
-      const range = dateRange(new Date(getStartDate), new Date(getEndDate));
+      const range = DateRange(new Date(getStartDate), new Date(getEndDate));
       const allRangeDate = range.map((date) => `${date.getDate()}${date.getMonth() + 1}${date.getFullYear()}`);
 
       setRangeId(allRangeDate);
@@ -449,7 +439,11 @@ function CustomCalender() {
 
   // console.log(startDate, multipleDate, startAndendDate, rangeId, dynYear, dynMonth, "actualDate");
   return (
-    <div className="cld_container">
+    <div
+      className={`${
+        duelSlots.length > 0 || singleSlots.length > 0 ? "cld_slotWidth" : "cld_noslotWidth"
+      } cld_container`}
+    >
       <div>
         <CldDateField
           selectedDate={(da) => setFieldValue(da)}
