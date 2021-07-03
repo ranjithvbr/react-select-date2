@@ -6,9 +6,10 @@ import {
   getDisableYear,
   getDisableCertainDate,
   getDisableWhenRange,
+  formatDay,
 } from "../cldDisable";
 import { SelectMonthField, SelectYearField } from "../Fields/cldSelectField";
-import { DateRange } from "./dateRange";
+import dateRange from "./dateRange";
 import "./calender.css";
 
 const currentdate = new Date();
@@ -22,7 +23,7 @@ function CustomCalender() {
   const findStartDayInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth(), 1).getDay();
   const disableState = "";
   // const disableCertainDate = useMemo(() => {
-  //   return ["2021-06-04", "2021-06-07", "2021-06-8", "2021-06-15", "2020-06-21"];
+  //   return ["2021-07-04", "2021-07-07", "2021-07-8", "2021-07-15", "2020-07-21"];
   // }, []);
   const disableCertainDate = useMemo(() => {
     return [];
@@ -32,20 +33,20 @@ function CustomCalender() {
   //     { date: "2021-06-03", avaliableSlot: 7 },
   //     { date: "2021-06-05", avaliableSlot: 1 },
   //     { date: "2021-06-15", avaliableSlot: 7 },
-  //     { date: "2021-06-07", avaliableSlot: 0 },
-  //     { date: "2021-06-28", avaliableSlot: 2 },
+  //     { date: "2021-07-07", avaliableSlot: 0 },
+  //     { date: "2021-07-28", avaliableSlot: 2 },
   //   ];
   // }, []);
   const singleSlots = useMemo(()=>{
     return []
      }, [])
-  const duelSlots = useMemo(() => {
-    return [{date:"2021-06-02",totalSlot:"30",avaliableSlot: "4"},{date:"2021-06-10",totalSlot:"30",avaliableSlot: "5"},{date:"2021-06-05",totalSlot:"30",avaliableSlot: "6"},{date:"2021-06-02",totalSlot:"30",avaliableSlot: "14"},{date:"2020-06-02",totalSlot:"28",avaliableSlot: "24"},{date:"2021-6-11",totalSlot:"30",avaliableSlot: "0"},{date:"2021-06-25",totalSlot:"50",avaliableSlot: "30"}];
-  }, []);
   // const duelSlots = useMemo(() => {
-  //   return [];
+  //   return [{date:"2021-06-02",totalSlot:"30",avaliableSlot: "4"},{date:"2021-06-10",totalSlot:"30",avaliableSlot: "5"},{date:"2021-07-05",totalSlot:"30",avaliableSlot: "6"},{date:"2021-06-02",totalSlot:"30",avaliableSlot: "14"},{date:"2020-06-02",totalSlot:"28",avaliableSlot: "24"},{date:"2021-6-11",totalSlot:"30",avaliableSlot: "0"},{date:"2021-06-25",totalSlot:"50",avaliableSlot: "30"}];
   // }, []);
-  const [selectType] = useState("multiple");
+  const duelSlots = useMemo(() => {
+    return [];
+  }, []);
+  const [selectType] = useState("range");
   const [getDate, setGetDate] = useState(findDaysInMonth);
   const [getStartDay, setGetStartDay] = useState(findStartDayInMonth);
   const [calenderDates, setCalenderDates] = useState();
@@ -54,6 +55,7 @@ function CustomCalender() {
   const [baseId, setBaseId] = useState([]);
   const [rangeId, setRangeId] = useState([]);
   const [inRange, setInRange] = useState();
+  const [slotsDate, setSlotsDate] = useState([]);
   const [disableArrow, setDisableArrow] = useState();
   const [startDate, setStartDate] = useState("");
   const [multipleDate, setMultipleDate] = useState("");
@@ -80,6 +82,15 @@ function CustomCalender() {
     }
   }, []);
 
+  useEffect(() => {
+    const slotDateArr = [];
+    const slotState = (singleSlots.length > 0 && singleSlots) || (duelSlots.length > 0 && duelSlots) || [];
+    slotState.forEach((slDt) => {
+      slotDateArr.push(formatDay(new Date(slDt.date)));
+    });
+    setSlotsDate(slotDateArr);
+  }, [duelSlots, singleSlots]);
+
   const rangeCalculater = useCallback(
     (id) => {
       const idDate = new Date(id);
@@ -103,7 +114,7 @@ function CustomCalender() {
           getEndDate = startAndendDate.startDate;
         }
 
-        const range = DateRange(new Date(getStartDate), new Date(getEndDate));
+        const range = dateRange(new Date(getStartDate), new Date(getEndDate));
         const allRangeDate = range.map((date) => `${date.getDate()}${date.getMonth() + 1}${date.getFullYear()}`);
 
         setRangeId(allRangeDate);
@@ -221,7 +232,7 @@ function CustomCalender() {
           getDisableWhenRange(disableCertainDate, new Date(dateTypeId), rangeStartDate, rangeEndDate);
 
         const disableSpecificDate =
-          disableCertainDate.length > 0 ? getDisableCertainDate(new Date(dateTypeId), disableCertainDate) : "";
+          disableCertainDate.length > 0 && getDisableCertainDate(new Date(dateTypeId), disableCertainDate);
         // dualSlots || singleSlots
         const slotsState = duelSlots.length > 0 || singleSlots.length > 0;
         const slotClass = slotsState && (selectType === "range" ? "cld_cellHoverMg" : "cld_cellHoverMgbt");
@@ -233,6 +244,11 @@ function CustomCalender() {
           `${highLightNum} ${selectType !== "range" && !slotsState ? "cld_cellSingleMultiple" : ""} ${
             rangeId.length !== 1 && "cld_cellactive"
           } ${inRangeCondition || ""}`;
+        // slot
+        const slotIndex =
+          slotsState && duelSlots.length > 0
+            ? duelSlots[slotsDate.indexOf(formatDay(new Date(dateTypeId)))]
+            : singleSlots[slotsDate.indexOf(formatDay(new Date(dateTypeId)))];
 
         noOfDate.push(
           <td
@@ -246,14 +262,22 @@ function CustomCalender() {
             aria-hidden="true"
           >
             <>
-              {slotsState && <span className="cld_slots cld_availableSlots">{i}</span>}
+              {slotsState && (
+                <span data-info={i - getStartDay} className="cld_slots cld_availableSlots">
+                  {slotIndex ? slotIndex.avaliableSlot : 0}
+                </span>
+              )}
               <div
                 data-info={i - getStartDay}
                 className={`${slotClass} cld_cellHover ${showDisableWhenRange} ${cssClassname.trim()}`}
               >
                 {i - getStartDay}
               </div>
-              {slotsState && <span className="cld_slots cld_totalSlots">99</span>}
+              {duelSlots.length > 0 && (
+                <span data-info={i - getStartDay} className="cld_slots cld_totalSlots">
+                  {slotIndex ? slotIndex.totalSlot : 0}
+                </span>
+              )}
             </>
           </td>,
         );
@@ -290,8 +314,9 @@ function CustomCalender() {
     selectType,
     baseId,
     disableCertainDate,
-    duelSlots.length,
-    singleSlots.length,
+    duelSlots,
+    singleSlots,
+    slotsDate,
     highLight,
   ]);
 
@@ -361,7 +386,7 @@ function CustomCalender() {
       const getStartDate = id.startDateFromField;
       const getEndDate = id.endDateFromField;
 
-      const range = DateRange(new Date(getStartDate), new Date(getEndDate));
+      const range = dateRange(new Date(getStartDate), new Date(getEndDate));
       const allRangeDate = range.map((date) => `${date.getDate()}${date.getMonth() + 1}${date.getFullYear()}`);
 
       setRangeId(allRangeDate);

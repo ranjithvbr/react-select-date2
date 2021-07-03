@@ -105,10 +105,16 @@
   table-layout: fixed;
 }
 
-.cld_container td,
-.cld_container th {
+.cld_noslotWidth td,
+.cld_noslotWidth th {
   border: 1px solid #f1f1f1;
-  /* border: 1px solid #a5a5a5; */
+  padding: 8px;
+  text-align: center;
+}
+
+.cld_slotWidth td,
+.cld_slotWidth th {
+  border: 1px solid #a5a5a5;
   padding: 8px;
   text-align: center;
 }

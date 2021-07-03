@@ -21,4 +21,4 @@ const dateRange = (start, end, range = []) => {
   return dateRange(next, end, [...range, start]);
 };
 
-export { dateRange as DateRange };
+export default dateRange;

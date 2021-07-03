@@ -110,8 +110,6 @@ export function getDisableCertainDate(renderDate, disableCertainDate) {
       formatDt.getFullYear() === renderDate.getFullYear()
     ) {
       disableCerDate = "cld_disableDate";
-    } else {
-      disableCerDate = "";
     }
   });
   return disableCerDate;
