@@ -72,8 +72,6 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
    */
   const handleDisableDateField = (date) => {
     const disableField = disableCertainDate.find((dt) => formatDay(new Date(dt)) === formatDay(new Date(date)));
-    console.log(disableField, "handleDisableDateField");
-
     return disableField;
   };
   /**
@@ -201,13 +199,14 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
 CldDateField.propTypes = {
   disableState: PropTypes.string,
   selectType: PropTypes.string.isRequired,
-  selectedDateFromCld: PropTypes.object.isRequired,
+  selectedDateFromCld: PropTypes.any,
   selectedDate: PropTypes.func.isRequired,
   disableCertainDate: PropTypes.array,
 };
 
 CldDateField.defaultProps = {
   disableState: "",
+  selectedDateFromCld: "",
   disableCertainDate: [],
 };
 

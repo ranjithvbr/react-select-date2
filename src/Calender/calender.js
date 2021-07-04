@@ -11,41 +11,48 @@ import {
 import { SelectMonthField, SelectYearField } from "../Fields/cldSelectField";
 import dateRange from "./dateRange";
 import "./calender.css";
+import Legends from "../Legends/legends";
 
 const currentdate = new Date();
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /**
- *@returns {React.ReactElement} returns a calender with single, multiple and range options
+ *@returns {React.ReactElement} returns a calender with single, multiple and range with slots options
  */
 function CustomCalender() {
   const findDaysInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth() + 1, 0).getDate();
   const findStartDayInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth(), 1).getDay();
   const disableState = "";
-  // const disableCertainDate = useMemo(() => {
-  //   return ["2021-07-04", "2021-07-07", "2021-07-8", "2021-07-15", "2020-07-21"];
-  // }, []);
   const disableCertainDate = useMemo(() => {
-    return [];
+    return ["2021-05-04", "2021-06-07", "2021-07-8", "2021-07-15"];
   }, []);
+
+  // const disableCertainDate = useMemo(() => {
+  //   return [];
+  // }, []);
+  
   // const singleSlots = useMemo(() => {
   //   return [
   //     { date: "2021-06-03", avaliableSlot: 7 },
   //     { date: "2021-06-05", avaliableSlot: 1 },
   //     { date: "2021-06-15", avaliableSlot: 7 },
-  //     { date: "2021-07-07", avaliableSlot: 0 },
-  //     { date: "2021-07-28", avaliableSlot: 2 },
+  //     { date: "2021-07-07", avaliableSlot:""},
+  //     { date: "2021-07-28", avaliableSlot: 10 },
   //   ];
   // }, []);
+
   const singleSlots = useMemo(()=>{
     return []
      }, [])
+
   // const duelSlots = useMemo(() => {
-  //   return [{date:"2021-06-02",totalSlot:"30",avaliableSlot: "4"},{date:"2021-06-10",totalSlot:"30",avaliableSlot: "5"},{date:"2021-07-05",totalSlot:"30",avaliableSlot: "6"},{date:"2021-06-02",totalSlot:"30",avaliableSlot: "14"},{date:"2020-06-02",totalSlot:"28",avaliableSlot: "24"},{date:"2021-6-11",totalSlot:"30",avaliableSlot: "0"},{date:"2021-06-25",totalSlot:"50",avaliableSlot: "30"}];
+  //   return [{date:"2021-06-02",totalSlot:"25",avaliableSlot: "4"},{date:"2021-06-10",totalSlot:"30",avaliableSlot: "5"},{date:"2021-07-05",totalSlot:"280",avaliableSlot: "6"},{date:"2021-06-02",totalSlot:"30",avaliableSlot: "14"},{date:"2020-06-02",totalSlot:"28",avaliableSlot: "24"},{date:"2021-6-11",totalSlot:"30",avaliableSlot: "0"},{date:"2021-06-25",totalSlot:"50",avaliableSlot: "30"}];
   // }, []);
+
   const duelSlots = useMemo(() => {
     return [];
   }, []);
+
   const [selectType] = useState("range");
   const [getDate, setGetDate] = useState(findDaysInMonth);
   const [getStartDay, setGetStartDay] = useState(findStartDayInMonth);
@@ -455,7 +462,7 @@ function CustomCalender() {
     if (selectType === "single") {
       selDate = startDate;
     } else if (selectType === "multiple") {
-      selDate = multipleDate[multipleDate.length - 1];
+      selDate = multipleDate ? multipleDate[multipleDate.length - 1] : "";
     } else {
       selDate = startAndendDate;
     }
@@ -517,6 +524,7 @@ function CustomCalender() {
         </thead>
         <tbody>{calenderDates}</tbody>
       </table>
+      <Legends slotsState={duelSlots.length > 0 || singleSlots.length > 0} />
     </div>
   );
 }
