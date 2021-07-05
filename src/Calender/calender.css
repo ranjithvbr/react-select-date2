@@ -20,8 +20,20 @@
   margin: 6px 0;
 }
 
+.cld_monthYearAlign {
+  display: flex;
+  justify-content: center;
+  margin: 6px 0;
+}
+
 .cld_btnAlign button {
   cursor: pointer;
+  font-size: 12px;
+  padding: 7px;
+  height: fit-content;
+  border-radius: 2px;
+  border: none;
+  box-shadow: 0px 0px 2px 0px rgb(0 0 0 / 75%);
 }
 
 .cld_showDays {
@@ -37,6 +49,7 @@
 .cld_highlightFirstNum {
   color: #ffffff;
   background-color: #3ecf8e;
+  /* background-color: #3d91ff; */
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   padding-inline-end: 10px;
@@ -44,12 +57,14 @@
 
 .cld_highlightNum {
   background-color: #3ecf8e;
+  /* background-color: #3d91ff; */
   color: #ffffff;
 }
 
 .cld_highlightLastNum {
   color: #ffffff;
   background-color: #3ecf8e;
+  /* background-color: #3d91ff; */
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   padding-inline-start: 10px;
@@ -120,13 +135,17 @@
 }
 
 .cld_container th {
-  font-weight: 500;
+  /* font-weight: 500; */
+  font-weight: 400;
+  color: #849095;
+  font-size: 14px;
 }
 
 .cld_container td {
   padding: 8px 0px;
   cursor: pointer;
   position: relative;
+  font-size: 14px;
 }
 
 .cld_cellHover {
@@ -136,6 +155,8 @@
 
 .cld_cellHoverMg {
   margin: 15px 0;
+  padding: 2px;
+  /* margin: 12px 0; */
 }
 
 .cld_cellSingleMultiple {
@@ -190,7 +211,8 @@
 .cld_slots {
   font-size: 13px;
   width: 25px;
-  height: 22px;
+  height: 18px;
+  /* height: 22px; */
   padding-inline-start: 4px;
   font-weight: 500;
   /* box-shadow: 1px 1px 5px 0px rgb(38 128 235 / 44%); */
@@ -205,11 +227,10 @@
   border-radius: 0 0 16px 0;
   /* color: #2680eb; */
   color: #64d464;
-  /* background: #a3c4ec 0 0 no-repeat padding-box; */
-  /* background: #f1f1f1; */
+  background: #def5de;
+  box-shadow: 0px 0px 3px 0px #29ef29;
   /* box-shadow: 1px 1px 1px 0px rgb(38 128 235 / 44%); */
   text-align: left;
-  /* z-index: 1; */
 }
 
 .cld_totalSlots {
@@ -217,8 +238,23 @@
   bottom: 0;
   right: 0;
   border-radius: 16px 0 0 0;
+  box-shadow: 0px 0px 3px 0px #3e82d4;
+  background: #dde2ef;
   /* box-shadow: 0px 0px 0px 1px rgb(38 128 235 / 44%); */
   /* background: #a3c4ec 0 0 no-repeat padding-box; */
   color: #2680eb;
   /* background: #f1f1f1; */
 }
+
+
+
+/* font-size: 13px;
+    width: 25px;
+    height: 18px;
+    height: 22px;
+    padding-inline-start: 4px;
+    font-weight: 500;
+    box-shadow: 1px 1px 5px 0px #acecac;
+    color: #6b6b6b;
+    background: #fdfffd;
+} */

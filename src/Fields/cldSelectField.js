@@ -21,7 +21,7 @@ const currentDate = new Date();
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect }) {
+export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect, showMonthDisable }) {
   /**
    * @param {number} index contain id
    * @returns {boolean} returns a boolean value
@@ -56,6 +56,7 @@ SelectMonthField.propTypes = {
   dynMonth: PropTypes.number.isRequired,
   dynYear: PropTypes.number.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
+  showMonthDisable: PropTypes.bool.isRequired,
 };
 
 SelectMonthField.defaultProps = {
@@ -66,7 +67,7 @@ SelectMonthField.defaultProps = {
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect }) {
+export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect, showMonthDisable }) {
   /**
    *
    * @returns {Array} returns no. of year values
@@ -96,4 +97,5 @@ SelectYearField.propTypes = {
   dynYear: PropTypes.number.isRequired,
   startAndendYearOptions: PropTypes.object.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
+  showMonthDisable: PropTypes.bool.isRequired,
 };

@@ -19,41 +19,28 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 /**
  *@returns {React.ReactElement} returns a calender with single, multiple and range with slots options
  */
-function CustomCalender() {
+function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSlotDates, singleSlotDates, onSelect, slotInfo = true, showDateInputField = true, showArrow = true, showMonthDisable = true}) {
   const findDaysInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth() + 1, 0).getDate();
   const findStartDayInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth(), 1).getDay();
-  const disableState = "";
-  const disableCertainDate = useMemo(() => {
-    return ["2021-05-04", "2021-06-07", "2021-07-8", "2021-07-15"];
-  }, []);
-
-  // const disableCertainDate = useMemo(() => {
-  //   return [];
-  // }, []);
+  const disableState = disableDate || "";
   
-  // const singleSlots = useMemo(() => {
-  //   return [
-  //     { date: "2021-06-03", avaliableSlot: 7 },
-  //     { date: "2021-06-05", avaliableSlot: 1 },
-  //     { date: "2021-06-15", avaliableSlot: 7 },
-  //     { date: "2021-07-07", avaliableSlot:""},
-  //     { date: "2021-07-28", avaliableSlot: 10 },
-  //   ];
-  // }, []);
+  const selectType = useMemo(() => {
+    return selectDateType || "single";
+  }, [selectDateType]);
+
+  const disableCertainDate = useMemo(() => {
+    return disableCertainDates || [];
+  }, [disableCertainDates]);
 
   const singleSlots = useMemo(()=>{
-    return []
-     }, [])
-
-  // const duelSlots = useMemo(() => {
-  //   return [{date:"2021-06-02",totalSlot:"25",avaliableSlot: "4"},{date:"2021-06-10",totalSlot:"30",avaliableSlot: "5"},{date:"2021-07-05",totalSlot:"280",avaliableSlot: "6"},{date:"2021-06-02",totalSlot:"30",avaliableSlot: "14"},{date:"2020-06-02",totalSlot:"28",avaliableSlot: "24"},{date:"2021-6-11",totalSlot:"30",avaliableSlot: "0"},{date:"2021-06-25",totalSlot:"50",avaliableSlot: "30"}];
-  // }, []);
+    return singleSlotDates || []
+     }, [singleSlotDates])
 
   const duelSlots = useMemo(() => {
-    return [];
-  }, []);
+    return duelSlotDates || [];
+  }, [duelSlotDates]);
 
-  const [selectType] = useState("range");
+  // const [selectType] = useState("range");
   const [getDate, setGetDate] = useState(findDaysInMonth);
   const [getStartDay, setGetStartDay] = useState(findStartDayInMonth);
   const [calenderDates, setCalenderDates] = useState();
@@ -77,7 +64,7 @@ function CustomCalender() {
 
   const handleDisableArrow = useCallback(() => {
     setDisableArrow(getDisableDateForArrow(disableState, dynMonth, dynYear));
-  }, [dynMonth, dynYear]);
+  }, [disableState, dynMonth, dynYear]);
 
   useEffect(() => {
     handleDisableArrow();
@@ -87,7 +74,7 @@ function CustomCalender() {
     if (disableState === "past" || disableState === "future") {
       setstartAndendYearOptions(getDisableYear(disableState));
     }
-  }, []);
+  }, [disableState]);
 
   useEffect(() => {
     const slotDateArr = [];
@@ -147,6 +134,16 @@ function CustomCalender() {
     },
     [rangeId, startAndendDate],
   );
+
+  useEffect(()=>{
+    if(selectType === "multiple"){
+      onSelect(multipleDate)
+    }else if(selectType === "range"){
+      onSelect(startAndendDate)
+    }else{
+      onSelect(startDate)
+    }
+  },[startDate, multipleDate, startAndendDate, onSelect, selectType])
 
   const highLight = useCallback(
     (id, actualDateId) => {
@@ -310,22 +307,7 @@ function CustomCalender() {
       }
     }
     setCalenderDates(trDate);
-  }, [
-    getDate,
-    getStartDay,
-    dynMonth,
-    dynYear,
-    rangeId,
-    startAndendDate,
-    inRange,
-    selectType,
-    baseId,
-    disableCertainDate,
-    duelSlots,
-    singleSlots,
-    slotsDate,
-    highLight,
-  ]);
+  }, [getDate, getStartDay, dynMonth, dynYear, rangeId, startAndendDate, inRange, selectType, baseId, disableState, disableCertainDate, duelSlots, singleSlots, slotsDate, highLight]);
 
   useEffect(() => {
     handleRenderDate();
@@ -432,6 +414,8 @@ function CustomCalender() {
       const fieldFindDaysInMonth = new Date(selDt.getFullYear(), selDt.getMonth() + 1, 0).getDate();
       const fieldFindStartDayInMonth = new Date(selDt.getFullYear(), selDt.getMonth(), 1).getDay();
       const dateIdFromFiled = `${selDt.getDate()}${selDt.getMonth() + 1}${selDt.getFullYear()}`;
+      const actualDateFromFiled = `${selDt.getFullYear()}-${selDt.getMonth() + 1}-${selDt.getDate()}`;
+
 
       setDynYear(selDt.getFullYear());
       setDynMonth(selDt.getMonth() + 1);
@@ -441,10 +425,12 @@ function CustomCalender() {
       switch (selectType) {
         case "single":
           setBaseId([dateIdFromFiled]);
+          setStartDate(new Date(actualDateFromFiled));
           break;
         case "multiple":
           if (!baseId.includes(dateIdFromFiled)) {
             setBaseId((oldArray) => [...oldArray, dateIdFromFiled]);
+            setMultipleDate((oldArray) => [...oldArray, new Date(actualDateFromFiled)]);
           }
           break;
         default:
@@ -477,41 +463,43 @@ function CustomCalender() {
       } cld_container`}
     >
       <div>
-        <CldDateField
+        {showDateInputField && <CldDateField
           selectedDate={(da) => setFieldValue(da)}
           selectType={selectType}
           selectedDateFromCld={selectedDateFromCldFunc()}
           disableState={disableState}
           disableCertainDate={disableCertainDate}
-        />
-        <div className="cld_btnAlign">
-          <button
+        />}
+        <div className={`${showArrow ? "cld_btnAlign" : "cld_monthYearAlign"}`}>
+          {showArrow && <button
             disabled={(disableState === "past" && disableArrow) || (dynYear === 1921 && dynMonth === 1)}
             onClick={() => handleLeft()}
             type="button"
           >
-            {"<"}
-          </button>
+            {"◀"}
+          </button>}
           <div className="cld_showDays">
             <SelectMonthField
               disableState={disableState}
               dynMonth={dynMonth}
               dynYear={dynYear}
               handleChangeSelect={(e) => handleSelectMonth(e)}
+              showMonthDisable={showMonthDisable}
             />
             <SelectYearField
               startAndendYearOptions={startAndendYearOptions}
               dynYear={dynYear}
               handleChangeSelect={(e) => handleSelectYear(e)}
+              showMonthDisable={showMonthDisable}
             />
           </div>
-          <button
+          {showArrow && <button
             disabled={(disableState === "future" && disableArrow) || (dynYear === 2100 && dynMonth === 12)}
             onClick={() => handleRight()}
             type="button"
           >
-            {">"}
-          </button>
+            {"▶"}
+          </button>}
         </div>
       </div>
       <table onMouseLeave={rangeId.length === 1 ? () => setInRange() : null}>
@@ -524,7 +512,7 @@ function CustomCalender() {
         </thead>
         <tbody>{calenderDates}</tbody>
       </table>
-      <Legends slotsState={duelSlots.length > 0 || singleSlots.length > 0} />
+      {slotInfo && <Legends slotsState={duelSlots.length > 0 || singleSlots.length > 0} />}
     </div>
   );
 }
