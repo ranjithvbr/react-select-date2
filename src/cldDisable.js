@@ -14,8 +14,6 @@ export function getDisableDate(renderDate, disableState) {
     disableRange = subractOneDay < new Date() && "cld_disableDate";
   } else if (disableState === "future") {
     disableRange = renderDate >= new Date() && "cld_disableDate";
-  } else {
-    disableRange = "";
   }
   return disableRange;
 }
@@ -135,8 +133,6 @@ export function getDisableWhenRange(disableCertainDate, dateTypeId, rangeStartDa
     disableCertainDateFormat.includes(formatDay(new Date(dateTypeId)))
   ) {
     disableWhenRange = "cld_disablebgColor";
-  } else {
-    disableWhenRange = "";
   }
   return disableWhenRange;
 }

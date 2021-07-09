@@ -7,7 +7,7 @@ import "./cldDateField.css";
  * @param {*} props all props
  * @returns {React.ReactElement} returns a date-input field
  */
-function CldDateField({ disableState, selectType, selectedDateFromCld, selectedDate, disableCertainDate }) {
+function CldDateField({ disableState, selectType, selectedDateFromCld, selectedDate, disableCertainDate, showDatelabel }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [errMsgStart, setErrMsgStart] = useState();
@@ -162,6 +162,7 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
     <>
       <div className={`${selectType === "range" ? "cld_fieldContainer" : "cld_startDateFieldOnly"}`}>
         <div>
+          {showDatelabel && <label>Start Date</label>}
           <input
             type="date"
             id="start_Cld_Field"
@@ -175,6 +176,7 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
         </div>
         {selectType === "range" && (
           <div>
+            {showDatelabel && <label>End Date</label>}
             <input
               type="date"
               id="end_Cld_Field"

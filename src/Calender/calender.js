@@ -19,7 +19,7 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 /**
  *@returns {React.ReactElement} returns a calender with single, multiple and range with slots options
  */
-function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSlotDates, singleSlotDates, onSelect, slotInfo = true, showDateInputField = true, showArrow = true, showMonthDisable = true}) {
+function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSlotDates, singleSlotDates, onSelect, slotInfo = true, showDateInputField = true, showArrow = true, showMonthDisable, showYearDisable, showDatelabel}) {
   const findDaysInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth() + 1, 0).getDate();
   const findStartDayInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth(), 1).getDay();
   const disableState = disableDate || "";
@@ -205,11 +205,9 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
         // classname for range, single and multiple
         let highLightNum;
         if (selectType === "range") {
-          highLightNum = rangeHightLight || "";
+          highLightNum = rangeHightLight;
         } else if (baseId.includes(dateId)) {
           highLightNum = "cld_highlightNumCircle";
-        } else {
-          highLightNum = "";
         }
         // startDate and endDate between ranges
         let inRangeCondition;
@@ -229,7 +227,7 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
           }
         }
         // disableDate
-        const disableDate = disableState ? getDisableDate(new Date(dateTypeId), disableState) : "";
+        const disableDate = disableState && getDisableDate(new Date(dateTypeId), disableState);
 
         const showDisableWhenRange =
           rangeId.length > 1 &&
@@ -241,18 +239,28 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
         const slotsState = duelSlots.length > 0 || singleSlots.length > 0;
         const slotClass = slotsState && (selectType === "range" ? "cld_cellHoverMg" : "cld_cellHoverMgbt");
 
-        // merge all classname
-        const cssClassname =
-          disableDate ||
-          disableSpecificDate ||
-          `${highLightNum} ${selectType !== "range" && !slotsState ? "cld_cellSingleMultiple" : ""} ${
+        let disableDateRangeClass;
+        if(disableDate){
+          disableDateRangeClass = disableDate;
+        }else if(disableSpecificDate){
+          disableDateRangeClass = disableSpecificDate;
+        }else{
+          disableDateRangeClass =`${highLightNum} ${selectType !== "range" && !slotsState && "cld_cellSingleMultiple"} ${
             rangeId.length !== 1 && "cld_cellactive"
-          } ${inRangeCondition || ""}`;
+          } ${inRangeCondition}`
+        }
         // slot
         const slotIndex =
           slotsState && duelSlots.length > 0
             ? duelSlots[slotsDate.indexOf(formatDay(new Date(dateTypeId)))]
             : singleSlots[slotsDate.indexOf(formatDay(new Date(dateTypeId)))];
+
+            // currentDay
+            const currentDayClass = formatDay(new Date(dateTypeId)) === formatDay(currentdate) &&"cld_currentDay";
+        // merge all classname
+            const tdClass = `${slotClass} ${showDisableWhenRange} ${currentDayClass} ${disableDateRangeClass} cld_cellHover`
+            // remove false and undefined in classname
+            const tdStyles = tdClass.trim().split("false ").join("").split("undefined ").join("")
 
         noOfDate.push(
           <td
@@ -273,7 +281,7 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
               )}
               <div
                 data-info={i - getStartDay}
-                className={`${slotClass} cld_cellHover ${showDisableWhenRange} ${cssClassname.trim()}`}
+                className={tdStyles}
               >
                 {i - getStartDay}
               </div>
@@ -469,6 +477,7 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
           selectedDateFromCld={selectedDateFromCldFunc()}
           disableState={disableState}
           disableCertainDate={disableCertainDate}
+          showDatelabel={showDatelabel}
         />}
         <div className={`${showArrow ? "cld_btnAlign" : "cld_monthYearAlign"}`}>
           {showArrow && <button
@@ -490,7 +499,7 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
               startAndendYearOptions={startAndendYearOptions}
               dynYear={dynYear}
               handleChangeSelect={(e) => handleSelectYear(e)}
-              showMonthDisable={showMonthDisable}
+              showYearDisable={showYearDisable}
             />
           </div>
           {showArrow && <button
@@ -512,7 +521,7 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
         </thead>
         <tbody>{calenderDates}</tbody>
       </table>
-      {slotInfo && <Legends slotsState={duelSlots.length > 0 || singleSlots.length > 0} />}
+      {slotInfo && <Legends singleSlotState={singleSlots.length > 0} duelSlotState={duelSlots.length > 0} />}
     </div>
   );
 }

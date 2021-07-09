@@ -6,7 +6,7 @@ function CallComponent(){
         { date: "2021-06-03", avaliableSlot: 7 },
         { date: "2021-06-05", avaliableSlot: 1 },
         { date: "2021-06-15", avaliableSlot: 7 },
-        { date: "2021-07-07", avaliableSlot:""},
+        { date: "2021-07-07", avaliableSlot:10},
         { date: "2021-07-28", avaliableSlot: 10 },
       ]
 
@@ -16,17 +16,19 @@ function CallComponent(){
 
     return(
         <>
-        <CustomCalender 
+        <CustomCalender
         // duelSlotDates={duelSlotDates}
         // singleSlotDates={singleSlotDates}
-        selectDateType={"range"}
-        // disableDate={"future"}
+        selectDateType={"multiple"}
+        disableDate={"past"}
         // disableCertainDates={disableCertainDates}
         onSelect={(data)=>console.log(data, "data")}
-        // slotInfo={false}
-        showDateInputField={false}
-        showArrow={false}
-        showMonthDisable={false}
+        // slotInfo={true}
+        // showDateInputField={false}
+        // showArrow={false}
+        // showMonthDisable={true}
+        // showYearDisable={true}
+        // showDatelabel={true}
         />
         </>
     )

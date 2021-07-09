@@ -1,18 +1,20 @@
 .cld_container input {
   height: 32px;
   border: none;
-  box-shadow: 0px 0px 3px 0px rgb(0 0 0 / 75%);
+  box-shadow: 0px 0px 3px 0px #8a8a8a;
   text-transform: uppercase;
   font-size: 14px;
-  /* font-size: 16px; */
   color: #797979;
   width: 99.5%;
   text-align: center;
   border-radius: 3px;
+  outline: none;
+  border: 1px solid #fff;
 }
 
 .cld_container input:focus-within{
-  outline-color: green ;
+  border: 1px solid #3ecf8e;
+  box-shadow: 0px 0px 2px 0px #3a9c71;
 }
 
 .cld_container input[type="date"]::-webkit-inner-spin-button,
@@ -46,14 +48,23 @@
 
 .hidecld_errmsg {
   width: fit-content;
-  /* transition: visibility 3s; */
-  /* visibility: hidden; */
 }
 
 .cld_fieldContainer {
   display: flex;
   justify-content: space-between;
   padding: 0 2px;
+}
+
+.cld_fieldContainer label{
+  font-size: 14px;
+  color: #545454;
+  margin-bottom: 17px;
+  font-weight: 500;
+}
+
+.cld_fieldContainer label ~ input{
+  margin-top: 3px;
 }
 
 .cld_fieldContainer > div:first-child {
