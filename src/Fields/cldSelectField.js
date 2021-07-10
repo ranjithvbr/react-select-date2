@@ -22,7 +22,7 @@ const currentDate = new Date();
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect, showMonthDisable}) {
+export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect, showMonthDisable }) {
   /**
    * @param {number} index contain id
    * @returns {boolean} returns a boolean value
@@ -40,7 +40,13 @@ export function SelectMonthField({ disableState, dynMonth, dynYear, handleChange
   };
 
   return (
-    <select disabled={showMonthDisable} className={`${showMonthDisable && "cld_disableArrow"}`} id="selectMonth" value={dynMonth - 1} onChange={(e) => handleChangeSelect(e)}>
+    <select
+      disabled={showMonthDisable}
+      className={`${showMonthDisable && "cld_disableArrow"}`}
+      id="selectMonth"
+      value={dynMonth - 1}
+      onChange={(e) => handleChangeSelect(e)}
+    >
       {months.map((data, index) => {
         return (
           <option disabled={disableMonthFunc(index)} key={data} value={index}>
@@ -53,7 +59,7 @@ export function SelectMonthField({ disableState, dynMonth, dynYear, handleChange
 }
 
 SelectMonthField.propTypes = {
-  disableState: PropTypes.string,
+  disableState: PropTypes.array,
   dynMonth: PropTypes.number.isRequired,
   dynYear: PropTypes.number.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
@@ -61,14 +67,14 @@ SelectMonthField.propTypes = {
 };
 
 SelectMonthField.defaultProps = {
-  disableState: "",
+  disableState: [],
 };
 
 /**
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect, showYearDisable}) {
+export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect, showYearDisable }) {
   /**
    *
    * @returns {Array} returns no. of year values
@@ -82,7 +88,13 @@ export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeS
     return yearoption;
   };
   return (
-    <select disabled={showYearDisable} className={`${showYearDisable && "cld_disableArrow"}`} id="selectYear" value={dynYear} onChange={(e) => handleChangeSelect(e)}>
+    <select
+      disabled={showYearDisable}
+      className={`${showYearDisable && "cld_disableArrow"}`}
+      id="selectYear"
+      value={dynYear}
+      onChange={(e) => handleChangeSelect(e)}
+    >
       {yearOptions().map((data) => {
         return (
           <option key={data} value={data}>

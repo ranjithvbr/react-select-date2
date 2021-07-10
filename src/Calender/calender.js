@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
+import PropTypes from "prop-types";
 import CldDateField from "../Fields/cldDateField";
 import {
   getDisableDate,
@@ -17,13 +18,28 @@ const currentdate = new Date();
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /**
- *@returns {React.ReactElement} returns a calender with single, multiple and range with slots options
+ * @param {*} props all the props needed for customize the calender
+ * @returns {React.ReactElement} returns a calender with single, multiple and range with slots options
  */
-function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSlotDates, singleSlotDates, onSelect, slotInfo = true, showDateInputField = true, showArrow = true, showMonthDisable, showYearDisable, showDatelabel}) {
+function CustomCalender({
+  selectDateType,
+  disableDates,
+  disableCertainDates,
+  duelSlotDates,
+  singleSlotDates,
+  onSelect,
+  slotInfo = true,
+  showDateInputField = true,
+  showArrow = true,
+  showMonthDisable,
+  showYearDisable,
+  showDatelabel,
+  templateClr,
+}) {
   const findDaysInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth() + 1, 0).getDate();
   const findStartDayInMonth = new Date(currentdate.getFullYear(), currentdate.getMonth(), 1).getDay();
-  const disableState = disableDate || "";
-  
+  const disableState = disableDates || "";
+
   const selectType = useMemo(() => {
     return selectDateType || "single";
   }, [selectDateType]);
@@ -32,9 +48,9 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
     return disableCertainDates || [];
   }, [disableCertainDates]);
 
-  const singleSlots = useMemo(()=>{
-    return singleSlotDates || []
-     }, [singleSlotDates])
+  const singleSlots = useMemo(() => {
+    return singleSlotDates || [];
+  }, [singleSlotDates]);
 
   const duelSlots = useMemo(() => {
     return duelSlotDates || [];
@@ -135,15 +151,15 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
     [rangeId, startAndendDate],
   );
 
-  useEffect(()=>{
-    if(selectType === "multiple"){
-      onSelect(multipleDate)
-    }else if(selectType === "range"){
-      onSelect(startAndendDate)
-    }else{
-      onSelect(startDate)
+  useEffect(() => {
+    if (selectType === "multiple") {
+      onSelect(multipleDate);
+    } else if (selectType === "range") {
+      onSelect(startAndendDate);
+    } else {
+      onSelect(startDate);
     }
-  },[startDate, multipleDate, startAndendDate, onSelect, selectType])
+  }, [startDate, multipleDate, startAndendDate, onSelect, selectType]);
 
   const highLight = useCallback(
     (id, actualDateId) => {
@@ -181,33 +197,50 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
 
   const handleRenderDate = useCallback(() => {
     const noOfDate = [];
+    let templateHighLightbg;
+    let templateRangeHighLightbg;
+    let templateBorder;
+    let templateCurrentDay;
+    if (templateClr === "blue") {
+      templateHighLightbg = "cld_blueHighlight";
+      templateRangeHighLightbg = "cld_inrangeBlue cld_inrangeIndexBlue";
+      templateBorder = "cld_cellBlueActive";
+      templateCurrentDay = "cld_currentDayBlue";
+    } else {
+      templateHighLightbg = "cld_greenHighlight";
+      templateRangeHighLightbg = "cld_inrangeGreen cld_inrangeIndexGreen";
+      templateBorder = "cld_cellGreenActive";
+      templateCurrentDay = "cld_currentDayGreen";
+    }
+
     for (let i = 1; i <= getDate + getStartDay; i += 1) {
       if (i <= getStartDay) {
         noOfDate.push(<td />);
       } else {
         const dateId = `${i - getStartDay}${dynMonth}${dynYear}`;
         const dateTypeId = `${dynYear}-${dynMonth}-${i - getStartDay}`;
+
         // range classname for start,between and end
         let rangeHightLight;
         if (rangeId[0] === dateId) {
-          rangeHightLight = "cld_highlightFirstNum";
+          rangeHightLight = `${templateHighLightbg} cld_highlightFirstNum`;
         } else if (rangeId[rangeId.length - 1] === dateId) {
-          rangeHightLight = "cld_highlightLastNum";
+          rangeHightLight = `${templateHighLightbg} cld_highlightLastNum`;
         } else if (rangeId.includes(dateId)) {
-          rangeHightLight = "cld_highlightNum";
+          rangeHightLight = `${templateHighLightbg} cld_highlightNum`;
         }
         // firstOrder change className
         const rangeStartDate = startAndendDate.startDate && startAndendDate.startDate;
         const rangeEndDate = startAndendDate.endDate && startAndendDate.endDate;
         if (rangeId.length === 1 && rangeStartDate.getDate() > Number(inRange)) {
-          rangeHightLight = rangeId[0] === dateId && "cld_highlightLastNum";
+          rangeHightLight = rangeId[0] === dateId && `${templateHighLightbg} cld_highlightLastNum`;
         }
         // classname for range, single and multiple
         let highLightNum;
         if (selectType === "range") {
           highLightNum = rangeHightLight;
         } else if (baseId.includes(dateId)) {
-          highLightNum = "cld_highlightNumCircle";
+          highLightNum = `${templateHighLightbg} cld_highlightNumCircle`;
         }
         // startDate and endDate between ranges
         let inRangeCondition;
@@ -216,14 +249,15 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
             inRangeCondition =
               (Number(inRange) >= i - getStartDay &&
                 rangeStartDate.getDate() < i - getStartDay &&
-                "cld_inrange cld_inrangeLastIndex") ||
+                `${templateRangeHighLightbg} cld_inrangeLastIndex`) ||
               (Number(inRange) <= i - getStartDay &&
                 rangeStartDate.getDate() > i - getStartDay &&
-                "cld_inrange cld_inrangeFirstIndex");
+                `${templateRangeHighLightbg} cld_inrangeFirstIndex`);
           } else if (rangeStartDate < new Date(`${dynYear}-${dynMonth}-${Number(inRange)}`)) {
-            inRangeCondition = Number(inRange) >= i - getStartDay && "cld_inrange cld_inrangeLastIndex";
+            inRangeCondition = Number(inRange) >= i - getStartDay && `${templateRangeHighLightbg} cld_inrangeLastIndex`;
           } else {
-            inRangeCondition = Number(inRange) <= i - getStartDay && "cld_inrange cld_inrangeFirstIndex";
+            inRangeCondition =
+              Number(inRange) <= i - getStartDay && `${templateRangeHighLightbg} cld_inrangeFirstIndex`;
           }
         }
         // disableDate
@@ -240,14 +274,14 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
         const slotClass = slotsState && (selectType === "range" ? "cld_cellHoverMg" : "cld_cellHoverMgbt");
 
         let disableDateRangeClass;
-        if(disableDate){
+        if (disableDate) {
           disableDateRangeClass = disableDate;
-        }else if(disableSpecificDate){
+        } else if (disableSpecificDate) {
           disableDateRangeClass = disableSpecificDate;
-        }else{
-          disableDateRangeClass =`${highLightNum} ${selectType !== "range" && !slotsState && "cld_cellSingleMultiple"} ${
-            rangeId.length !== 1 && "cld_cellactive"
-          } ${inRangeCondition}`
+        } else {
+          disableDateRangeClass = `${highLightNum} ${
+            selectType !== "range" && !slotsState && "cld_cellSingleMultiple"
+          } ${rangeId.length !== 1 && `${templateBorder} cld_cellActive`} ${inRangeCondition}`;
         }
         // slot
         const slotIndex =
@@ -255,12 +289,13 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
             ? duelSlots[slotsDate.indexOf(formatDay(new Date(dateTypeId)))]
             : singleSlots[slotsDate.indexOf(formatDay(new Date(dateTypeId)))];
 
-            // currentDay
-            const currentDayClass = formatDay(new Date(dateTypeId)) === formatDay(currentdate) &&"cld_currentDay";
+        // currentDay
+        const currentDayClass =
+          formatDay(new Date(dateTypeId)) === formatDay(currentdate) && `${templateCurrentDay} cld_currentDay`;
         // merge all classname
-            const tdClass = `${slotClass} ${showDisableWhenRange} ${currentDayClass} ${disableDateRangeClass} cld_cellHover`
-            // remove false and undefined in classname
-            const tdStyles = tdClass.trim().split("false ").join("").split("undefined ").join("")
+        const tdClass = `${slotClass} ${showDisableWhenRange} ${currentDayClass} ${disableDateRangeClass} cld_cellHover`;
+        // remove false and undefined in classname
+        const tdStyles = tdClass.trim().split("false ").join("").split("undefined ").join("");
 
         noOfDate.push(
           <td
@@ -279,10 +314,7 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
                   {slotIndex ? slotIndex.avaliableSlot : 0}
                 </span>
               )}
-              <div
-                data-info={i - getStartDay}
-                className={tdStyles}
-              >
+              <div data-info={i - getStartDay} className={tdStyles}>
                 {i - getStartDay}
               </div>
               {duelSlots.length > 0 && (
@@ -315,7 +347,24 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
       }
     }
     setCalenderDates(trDate);
-  }, [getDate, getStartDay, dynMonth, dynYear, rangeId, startAndendDate, inRange, selectType, baseId, disableState, disableCertainDate, duelSlots, singleSlots, slotsDate, highLight]);
+  }, [
+    templateClr,
+    getDate,
+    getStartDay,
+    dynMonth,
+    dynYear,
+    rangeId,
+    startAndendDate,
+    inRange,
+    selectType,
+    baseId,
+    disableState,
+    disableCertainDate,
+    duelSlots,
+    singleSlots,
+    slotsDate,
+    highLight,
+  ]);
 
   useEffect(() => {
     handleRenderDate();
@@ -424,7 +473,6 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
       const dateIdFromFiled = `${selDt.getDate()}${selDt.getMonth() + 1}${selDt.getFullYear()}`;
       const actualDateFromFiled = `${selDt.getFullYear()}-${selDt.getMonth() + 1}-${selDt.getDate()}`;
 
-
       setDynYear(selDt.getFullYear());
       setDynMonth(selDt.getMonth() + 1);
       setGetDate(fieldFindDaysInMonth);
@@ -471,22 +519,27 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
       } cld_container`}
     >
       <div>
-        {showDateInputField && <CldDateField
-          selectedDate={(da) => setFieldValue(da)}
-          selectType={selectType}
-          selectedDateFromCld={selectedDateFromCldFunc()}
-          disableState={disableState}
-          disableCertainDate={disableCertainDate}
-          showDatelabel={showDatelabel}
-        />}
+        {showDateInputField && (
+          <CldDateField
+            selectedDate={(da) => setFieldValue(da)}
+            selectType={selectType}
+            selectedDateFromCld={selectedDateFromCldFunc()}
+            disableState={disableState}
+            disableCertainDate={disableCertainDate}
+            showDatelabel={showDatelabel}
+            templateClr={templateClr}
+          />
+        )}
         <div className={`${showArrow ? "cld_btnAlign" : "cld_monthYearAlign"}`}>
-          {showArrow && <button
-            disabled={(disableState === "past" && disableArrow) || (dynYear === 1921 && dynMonth === 1)}
-            onClick={() => handleLeft()}
-            type="button"
-          >
-            {"◀"}
-          </button>}
+          {showArrow && (
+            <button
+              disabled={(disableState === "past" && disableArrow) || (dynYear === 1921 && dynMonth === 1)}
+              onClick={() => handleLeft()}
+              type="button"
+            >
+              ◀
+            </button>
+          )}
           <div className="cld_showDays">
             <SelectMonthField
               disableState={disableState}
@@ -502,13 +555,15 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
               showYearDisable={showYearDisable}
             />
           </div>
-          {showArrow && <button
-            disabled={(disableState === "future" && disableArrow) || (dynYear === 2100 && dynMonth === 12)}
-            onClick={() => handleRight()}
-            type="button"
-          >
-            {"▶"}
-          </button>}
+          {showArrow && (
+            <button
+              disabled={(disableState === "future" && disableArrow) || (dynYear === 2100 && dynMonth === 12)}
+              onClick={() => handleRight()}
+              type="button"
+            >
+              ▶
+            </button>
+          )}
         </div>
       </div>
       <table onMouseLeave={rangeId.length === 1 ? () => setInRange() : null}>
@@ -521,9 +576,46 @@ function CustomCalender({selectDateType, disableDate,disableCertainDates, duelSl
         </thead>
         <tbody>{calenderDates}</tbody>
       </table>
-      {slotInfo && <Legends singleSlotState={singleSlots.length > 0} duelSlotState={duelSlots.length > 0} />}
+      {slotInfo && (
+        <Legends
+          templateClr={templateClr}
+          singleSlotState={singleSlots.length > 0}
+          duelSlotState={duelSlots.length > 0}
+        />
+      )}
     </div>
   );
 }
+
+CustomCalender.propTypes = {
+  selectDateType: PropTypes.string,
+  disableDates: PropTypes.arrayOf(PropTypes.object),
+  disableCertainDates: PropTypes.array,
+  duelSlotDates: PropTypes.arrayOf(PropTypes.object),
+  singleSlotDates: PropTypes.arrayOf(PropTypes.object),
+  onSelect: PropTypes.func.isRequired,
+  slotInfo: PropTypes.bool,
+  showDateInputField: PropTypes.bool,
+  showArrow: PropTypes.bool,
+  showMonthDisable: PropTypes.bool,
+  showYearDisable: PropTypes.bool,
+  showDatelabel: PropTypes.bool,
+  templateClr: PropTypes.string,
+};
+
+CustomCalender.defaultProps = {
+  selectDateType: "",
+  disableDates: [],
+  disableCertainDates: [],
+  duelSlotDates: [],
+  singleSlotDates: [],
+  slotInfo: true,
+  showDateInputField: true,
+  showArrow: true,
+  showMonthDisable: false,
+  showYearDisable: false,
+  showDatelabel: false,
+  templateClr: "",
+};
 
 export default CustomCalender;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { getDisableDateForField, formatDay } from "../cldDisable";
 import "./cldDateField.css";
@@ -7,7 +7,15 @@ import "./cldDateField.css";
  * @param {*} props all props
  * @returns {React.ReactElement} returns a date-input field
  */
-function CldDateField({ disableState, selectType, selectedDateFromCld, selectedDate, disableCertainDate, showDatelabel }) {
+function CldDateField({
+  disableState,
+  selectType,
+  selectedDateFromCld,
+  selectedDate,
+  disableCertainDate,
+  showDatelabel,
+  templateClr,
+}) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [errMsgStart, setErrMsgStart] = useState();
@@ -20,6 +28,9 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
     minDate: "1921-01-01",
     maxDate: "2100-12-31",
   });
+  const templateOutline = useMemo(() => {
+    return templateClr === "blue" ? "cld_blueOutline" : "cld_greenOutline";
+  }, [templateClr]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -162,7 +173,7 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
     <>
       <div className={`${selectType === "range" ? "cld_fieldContainer" : "cld_startDateFieldOnly"}`}>
         <div>
-          {showDatelabel && <label>Start Date</label>}
+          {showDatelabel && <label htmlFor="start_Cld_Field">Start Date</label>}
           <input
             type="date"
             id="start_Cld_Field"
@@ -172,11 +183,12 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
             onBlur={startSetError}
             min={minAndmaxDate.minDate}
             max={minAndmaxDate.maxDate}
+            className={templateOutline}
           />
         </div>
         {selectType === "range" && (
           <div>
-            {showDatelabel && <label>End Date</label>}
+            {showDatelabel && <label htmlFor="end_Cld_Field">End Date</label>}
             <input
               type="date"
               id="end_Cld_Field"
@@ -186,6 +198,7 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
               onBlur={endSetError}
               min={minAndmaxDate.minDate}
               max={minAndmaxDate.maxDate}
+              className={templateOutline}
             />
           </div>
         )}
@@ -199,17 +212,21 @@ function CldDateField({ disableState, selectType, selectedDateFromCld, selectedD
 }
 
 CldDateField.propTypes = {
-  disableState: PropTypes.string,
+  disableState: PropTypes.array,
   selectType: PropTypes.string.isRequired,
   selectedDateFromCld: PropTypes.any,
   selectedDate: PropTypes.func.isRequired,
   disableCertainDate: PropTypes.array,
+  templateClr: PropTypes.string,
+  showDatelabel: PropTypes.bool,
 };
 
 CldDateField.defaultProps = {
-  disableState: "",
+  disableState: [],
+  templateClr: "",
   selectedDateFromCld: "",
   disableCertainDate: [],
+  showDatelabel: false,
 };
 
 export default CldDateField;

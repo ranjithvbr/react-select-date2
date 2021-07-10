@@ -12,9 +12,14 @@
   border: 1px solid #fff;
 }
 
-.cld_container input:focus-within{
+.cld_container input:focus-within.cld_greenOutline {
   border: 1px solid #3ecf8e;
   box-shadow: 0px 0px 2px 0px #3a9c71;
+}
+
+.cld_container input:focus-within.cld_blueOutline {
+  border: 1px solid #3d91ff;
+  box-shadow: 0px 0px 2px 0px #2971d0;
 }
 
 .cld_container input[type="date"]::-webkit-inner-spin-button,
@@ -56,14 +61,14 @@
   padding: 0 2px;
 }
 
-.cld_fieldContainer label{
+.cld_fieldContainer label {
   font-size: 14px;
   color: #545454;
   margin-bottom: 17px;
   font-weight: 500;
 }
 
-.cld_fieldContainer label ~ input{
+.cld_fieldContainer label ~ input {
   margin-top: 3px;
 }
 

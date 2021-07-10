@@ -26,8 +26,11 @@
   margin: 6px 0;
 }
 
-.cld_btnAlign button:disabled {
-    background-color: #e0e0e0;
+.cld_btnAlign button:disabled,
+.cld_btnAlign button:disabled:hover {
+  cursor: unset;
+  background-color: #d0d0d0;
+  box-shadow: none;
 }
 
 .cld_btnAlign button {
@@ -42,7 +45,7 @@
   color: #849095;
 }
 
-.cld_btnAlign button:hover{
+.cld_btnAlign button:hover {
   background-color: #f1f1f1;
 }
 
@@ -61,45 +64,57 @@
 }
 
 .cld_highlightNum {
-  background-color: #3ecf8e;
-  /* background-color: #3d91ff; */
   color: #ffffff;
 }
 
 .cld_highlightLastNum {
   color: #ffffff;
-  background-color: #3ecf8e;
-  /* background-color: #3d91ff; */
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   padding-inline-start: 10px;
 }
 
 .cld_highlightNumCircle {
-  background-color: #3ecf8e;
   border-radius: 20px;
   color: #ffffff;
   margin: 0 5px;
 }
 
-.cld_inrange {
+.cld_blueHighlight {
+  background-color: #3d91ff;
+}
+
+.cld_greenHighlight {
+  background-color: #3ecf8e;
+}
+
+.cld_inrangeBlue {
+  background-color: #aacbf7;
+}
+
+.cld_inrangeGreen {
   background-color: #b8ead4;
 }
 
 .cld_container td:hover .cld_inrangeLastIndex {
-  background-color: #b8ead4;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
 .cld_container td:hover .cld_inrangeFirstIndex {
-  background-color: #b8ead4;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 
-/* table */
+.cld_container td:hover .cld_inrangeIndexBlue {
+  background-color: #aacbf7;
+}
 
+.cld_container td:hover .cld_inrangeIndexGreen {
+  background-color: #b8ead4;
+}
+
+/* table */
 .cld_container table {
   border-collapse: collapse;
   width: 100%;
@@ -157,7 +172,8 @@
 .cld_container td:nth-child(n + 7) div.cld_highlightNum,
 .cld_container td:nth-child(n + 7) div.cld_highlightFirstNum,
 .cld_container td:nth-child(n + 7) div.cld_highlightLastNum,
-.cld_container td:nth-child(n + 7) div.cld_inrange,
+.cld_container td:nth-child(n + 7) div.cld_inrangeBlue,
+.cld_container td:nth-child(n + 7) div.cld_inrangeGreen,
 .cld_container td:nth-child(n + 7) div.cld_disablebgColor {
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
@@ -167,14 +183,15 @@
 .cld_container td:nth-child(7n + 1) div.cld_highlightNum,
 .cld_container td:nth-child(7n + 1) div.cld_highlightLastNum,
 .cld_container td:nth-child(7n + 1) div.cld_highlightFirstNum,
-.cld_container td:nth-child(7n + 1) div.cld_inrange,
+.cld_container td:nth-child(7n + 1) div.cld_inrangeBlue,
+.cld_container td:nth-child(7n + 1) div.cld_inrangeGreen,
 .cld_container td:nth-child(7n + 1) div.cld_disablebgColor {
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
   margin-left: 5px;
 }
 
-.cld_container td:hover > .cld_cellHover.cld_cellactive:after {
+.cld_container td:hover > .cld_cellHover.cld_cellActive:after {
   content: "";
   position: absolute;
   top: -2px;
@@ -182,7 +199,14 @@
   bottom: -2px;
   left: 0px;
   border-radius: 20px;
+}
+
+.cld_container td:hover > .cld_cellHover.cld_cellGreenActive:after {
   border: 1px solid #008000;
+}
+
+.cld_container td:hover > .cld_cellHover.cld_cellBlueActive:after {
+  border: 1px solid #004baf;
 }
 
 .cld_disableDate {
@@ -199,12 +223,8 @@
   font-size: 13px;
   width: 25px;
   height: 18px;
-  /* height: 22px; */
   padding-inline-start: 4px;
   font-weight: 500;
-  /* box-shadow: 1px 1px 5px 0px rgb(38 128 235 / 44%); */
-  /* color: #6b6b6b; */
-  /* background: #f1f1f1; */
 }
 
 .cld_availableSlots {
@@ -230,19 +250,28 @@
   color: #2680eb;
 }
 
-.cld_currentDay::before{
-  content: '';
+.cld_currentDay::before {
+  content: "";
   position: absolute;
   bottom: 2px;
-  left: 50%;
+  left: 51%;
   transform: translate(-50%, 0);
   width: 17px;
   height: 2px;
   border-radius: 2px;
-  background: #3ecf8e;
-  /* background: #3d91ff; */
 }
 
-.cld_currentDay.cld_highlightNum::before, .cld_currentDay.cld_highlightLastNum::before, .cld_currentDay.cld_highlightFirstNum::before,.cld_currentDay.cld_highlightNumCircle::before{
+.cld_currentDay.cld_currentDayBlue::before {
+  background: #3d91ff;
+}
+
+.cld_currentDay.cld_currentDayGreen::before {
+  background: #3ecf8e;
+}
+
+.cld_currentDay.cld_highlightNum::before,
+.cld_currentDay.cld_highlightLastNum::before,
+.cld_currentDay.cld_highlightFirstNum::before,
+.cld_currentDay.cld_highlightNumCircle::before {
   background: #ffffff;
 }
