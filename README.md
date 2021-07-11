@@ -3,7 +3,7 @@ A React Component for choosing the single-date, multiple-date, range and slots b
 
 Live Demo: ---Working on it---
 
-![](link) 
+![](https://user-images.githubusercontent.com/37235948/125201244-d6fa6e00-e28b-11eb-9761-4f0760ad357b.png) 
 
 # Getting Started
 ### Installation
