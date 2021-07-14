@@ -93,3 +93,24 @@ showMonthArrow                       | Boolean   | false            | whether mo
 showYearArrow                        | Boolean   | false            | whether year select field can be editable and visibility of arrow 
 showArrow                            | Boolean   | true             | visibility of left arrow and right arrow
 
+### About Calender
+This Calender developed based on hooks and javascript date object.Uses of choosing the single-date, multiple-date, range and slots booking.
+
+#### Single-Date Select
+The single Date selection is a fully controlled component that allows users to select a single date. Can select the date from calendar table. Similarly, you can select the date from `date-input` when after you fill the valid date and click the Enter button inside the respective field or navigate the focus it will trigger the selectDate Func.`date-input` field will throw the error message if the date is not valid.`slotInfo` props will allow showing the color of selected-Date and disabled-Date.
+
+#### Multiple-Date Select
+The multiple Date selection is a fully controlled component that allows users to select a multiple date. This works same as single-date for select the date.
+
+#### DateRage
+The dateRange is a fully controlled component that allows users to select a date range.Can select the date range from `date-input` field or calender table. You can control the selected dates using the `onSelect` props. The DateRange also manages internal state for partial dates entered by typing (although `onSelect` will not trigger until a date has been entered completely in that case, `date-input` field will throw the error message if the date is not valid).
+
+#### Slots
+The slots booking is a fully controlled component that allows users to view the avilable slots and total slots.In slots booking calender can change the type of selection throw 
+`selectDateType` props.Similarly, you want to display only avilable slots can achieve throw sending `singleSlotDates` value, In order to show avilable slots and total slots need to send `duelSlotDates` value(should not send both at the same `singleSlotDates` and `duelSlotDates`).
+
+```javascript
+// example slots values
+singleSlotDates = {[ { date: "2021-07-03", avaliableSlot: "7" } ]}
+duelSlotDates = {[ { date: "2021-07-02", totalSlot: "30", avaliableSlot: "4" } ]}
+```
