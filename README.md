@@ -94,7 +94,7 @@ showYearArrow                        | Boolean   | false            | whether ye
 showArrow                            | Boolean   | true             | visibility of left arrow and right arrow
 
 ### About Calender
-This Calender developed based on hooks and javascript date object.Uses of choosing the single-date, multiple-date, range and slots booking.
+This Calender developed based on hooks and javascript date object without dependencies.Uses of choosing the single-date, multiple-date, range and slots booking.
 
 #### Single-Date Select
 The single Date selection is a fully controlled component that allows users to select a single date. Can select the date from calendar table. Similarly, you can select the date from `date-input` when after you fill the valid date and click the Enter button inside the respective field or navigate the focus it will trigger the selectDate Func.`date-input` field will throw the error message if the date is not valid.`slotInfo` props will allow showing the color of selected-Date and disabled-Date.
