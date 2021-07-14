@@ -31,8 +31,8 @@ function CustomCalender({
   slotInfo = true,
   showDateInputField = true,
   showArrow = true,
-  showMonthDisable,
-  showYearDisable,
+  showMonthArrow,
+  showYearArrow,
   showDatelabel,
   templateClr,
 }) {
@@ -153,11 +153,11 @@ function CustomCalender({
 
   useEffect(() => {
     if (selectType === "multiple") {
-      onSelect(multipleDate);
+      onSelect && onSelect(multipleDate);
     } else if (selectType === "range") {
-      onSelect(startAndendDate);
+      onSelect && onSelect(startAndendDate);
     } else {
-      onSelect(startDate);
+      onSelect && onSelect(startDate);
     }
   }, [startDate, multipleDate, startAndendDate, onSelect, selectType]);
 
@@ -271,7 +271,7 @@ function CustomCalender({
           disableCertainDate.length > 0 && getDisableCertainDate(new Date(dateTypeId), disableCertainDate);
         // dualSlots || singleSlots
         const slotsState = duelSlots.length > 0 || singleSlots.length > 0;
-        const slotClass = slotsState && (selectType === "range" ? "cld_cellHoverMg" : "cld_cellHoverMgbt");
+        const slotClass = slotsState && (selectType === "range" ? (singleSlots.length > 0 ? "cld_cellAvailableMg" : "cld_cellHoverMg") : "cld_cellHoverMgbt");
 
         let disableDateRangeClass;
         if (disableDate) {
@@ -515,7 +515,7 @@ function CustomCalender({
   return (
     <div
       className={`${
-        duelSlots.length > 0 || singleSlots.length > 0 ? "cld_slotWidth" : "cld_noslotWidth"
+        duelSlots.length > 0 ? "cld_slotWidth" : singleSlots.length > 0 ? "cld_avlSlotWidth" : "cld_noslotWidth"
       } cld_container`}
     >
       <div>
@@ -546,13 +546,13 @@ function CustomCalender({
               dynMonth={dynMonth}
               dynYear={dynYear}
               handleChangeSelect={(e) => handleSelectMonth(e)}
-              showMonthDisable={showMonthDisable}
+              showMonthArrow={showMonthArrow}
             />
             <SelectYearField
               startAndendYearOptions={startAndendYearOptions}
               dynYear={dynYear}
               handleChangeSelect={(e) => handleSelectYear(e)}
-              showYearDisable={showYearDisable}
+              showYearArrow={showYearArrow}
             />
           </div>
           {showArrow && (
@@ -597,8 +597,8 @@ CustomCalender.propTypes = {
   slotInfo: PropTypes.bool,
   showDateInputField: PropTypes.bool,
   showArrow: PropTypes.bool,
-  showMonthDisable: PropTypes.bool,
-  showYearDisable: PropTypes.bool,
+  showMonthArrow: PropTypes.bool,
+  showYearArrow: PropTypes.bool,
   showDatelabel: PropTypes.bool,
   templateClr: PropTypes.string,
 };
@@ -612,8 +612,8 @@ CustomCalender.defaultProps = {
   slotInfo: true,
   showDateInputField: true,
   showArrow: true,
-  showMonthDisable: false,
-  showYearDisable: false,
+  showMonthArrow: false,
+  showYearArrow: false,
   showDatelabel: false,
   templateClr: "",
 };

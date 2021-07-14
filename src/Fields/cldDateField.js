@@ -36,7 +36,7 @@ function CldDateField({
     const timer = setTimeout(() => {
       setErrMsgStart("");
       setErrMsgEnd("");
-    }, 3000);
+    }, 4000);
     return () => clearTimeout(timer);
   }, [errMsgStart, errMsgEnd]);
 

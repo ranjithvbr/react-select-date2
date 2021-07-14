@@ -22,7 +22,7 @@ const currentDate = new Date();
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect, showMonthDisable }) {
+export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect, showMonthArrow }) {
   /**
    * @param {number} index contain id
    * @returns {boolean} returns a boolean value
@@ -41,8 +41,8 @@ export function SelectMonthField({ disableState, dynMonth, dynYear, handleChange
 
   return (
     <select
-      disabled={showMonthDisable}
-      className={`${showMonthDisable && "cld_disableArrow"}`}
+      disabled={showMonthArrow}
+      className={`${showMonthArrow && "cld_disableArrow"}`}
       id="selectMonth"
       value={dynMonth - 1}
       onChange={(e) => handleChangeSelect(e)}
@@ -63,7 +63,7 @@ SelectMonthField.propTypes = {
   dynMonth: PropTypes.number.isRequired,
   dynYear: PropTypes.number.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
-  showMonthDisable: PropTypes.bool.isRequired,
+  showMonthArrow: PropTypes.bool.isRequired,
 };
 
 SelectMonthField.defaultProps = {
@@ -74,7 +74,7 @@ SelectMonthField.defaultProps = {
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect, showYearDisable }) {
+export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect, showYearArrow }) {
   /**
    *
    * @returns {Array} returns no. of year values
@@ -89,8 +89,8 @@ export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeS
   };
   return (
     <select
-      disabled={showYearDisable}
-      className={`${showYearDisable && "cld_disableArrow"}`}
+      disabled={showYearArrow}
+      className={`${showYearArrow && "cld_disableArrow"}`}
       id="selectYear"
       value={dynYear}
       onChange={(e) => handleChangeSelect(e)}
@@ -110,5 +110,5 @@ SelectYearField.propTypes = {
   dynYear: PropTypes.number.isRequired,
   startAndendYearOptions: PropTypes.object.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
-  showYearDisable: PropTypes.bool.isRequired,
+  showYearArrow: PropTypes.bool.isRequired,
 };

@@ -1,66 +1,95 @@
-# Getting Started with Create React App
+# react-select-date
+A React Component for choosing the single-date, multiple-date, range and slots booking.Purely date calculated from JavaScript Date Object.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live Demo: ---Working on it---
 
-## Available Scripts
+#### Single and Multiple select
+![](https://user-images.githubusercontent.com/37235948/125201244-d6fa6e00-e28b-11eb-9761-4f0760ad357b.png)
 
-In the project directory, you can run:
+#### SingleSlots and DuelSlots
+![](https://user-images.githubusercontent.com/37235948/125206652-0027f800-e2a6-11eb-9fb5-2a7b219e9a5a.png)
 
-### `npm start`
+# Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Installation
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Run `npm i react-select-date`
 
-### `npm test`
+## Usage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `SingelDate`
+```javascript
+import Calender from "react-select-date";
 
-### `npm run build`
+function MyComponent() {
+  return (
+      <Calender 
+        onSelect={(date) => console.log(date)}
+      />
+  );
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export default MyComponent;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `DateRange`
+```javascript
+import Calender from "react-select-date";
 
-### `npm run eject`
+function MyComponent() {
+  return (
+      <Calender 
+        onSelect={(date) => console.log(date)}
+        selectDateType="range"
+        // select template color
+        templateClr="blue"
+      />
+  );
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+export default MyComponent;
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### `Multiple With DuelSlots`
+```javascript
+import Calender from "react-select-date";
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+function MyComponent() {
+  const duelSlotDates = [
+      { date: "2021-07-02", totalSlot: "30", avaliableSlot: "4" },
+      { date: "2021-07-10", totalSlot: "30", avaliableSlot: "5" },
+      { date: "2021-07-05", totalSlot: "280", avaliableSlot: "160" },
+      { date: "2021-07-07", totalSlot: "30", avaliableSlot: "14" },
+    ]
+  return (
+      <Calender
+        onSelect={(date) => console.log(date)}
+        selectDateType="multiple"
+        duelSlotDates={duelSlotDates}
+      />
+  );
+}
 
-## Learn More
+export default MyComponent;
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+### Options
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Property                             | type      | Default Value    | Description
+-------------------------------------|-----------|------------------|-----------------------------------------------------------------
+selectDateType                       | String    | single           | define the selection type of single,multiple or range
+onSelect                             | Func      |                  | callback function for returns the selected date
+singleSlotDates                      | *Object[] | []               | define the avilable slots
+duelSlotDates                        | *Object[] | []               | define the avilable slots and total slots
+templateClr                          | String    | green            | define the selecte date color(green || blue)
+disableCertainDates                  | *Object[] | []               | disable the certain dates
+disableDates                         | String    |                  | disable the past or future date
+slotInfo                             | Boolean   | true             | visibility of slotInfo
+showDatelabel                        | Boolean   | false            | visibility of label for date input
+showDateInputField                   | Boolean   | true             | visibility of date input
+showMonthArrow                       | Boolean   | false            | whether month select field can be editable and visibility of arrow
+showYearArrow                        | Boolean   | false            | whether year select field can be editable and visibility of arrow 
+showArrow                            | Boolean   | true             | visibility of left arrow and right arrow
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)

@@ -10,6 +10,10 @@
   width: 40%;
 }
 
+.cld_avlSlotWidth {
+  width: 38%;
+}
+
 .cld_noslotWidth {
   width: 30%;
 }
@@ -132,7 +136,9 @@
 }
 
 .cld_slotWidth td,
-.cld_slotWidth th {
+.cld_slotWidth th,
+.cld_avlSlotWidth td,
+.cld_avlSlotWidth th {
   border: 1px solid #a5a5a5;
   padding: 8px;
   text-align: center;
@@ -159,6 +165,11 @@
 .cld_cellHoverMg {
   margin: 15px 0;
   padding: 2px;
+}
+
+.cld_cellAvailableMg{
+  margin-top: 14px;
+  margin-bottom: 4px;
 }
 
 .cld_cellSingleMultiple {
