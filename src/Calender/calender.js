@@ -8,6 +8,8 @@ import {
   getDisableCertainDate,
   getDisableWhenRange,
   formatDay,
+  setCurrentTime,
+  addZero,
 } from "../cldDisable";
 import { SelectMonthField, SelectYearField } from "../Fields/cldSelectField";
 import dateRange from "./dateRange";
@@ -105,14 +107,14 @@ function CustomCalender({
     (id) => {
       const idDate = new Date(id);
       if (rangeId.length === 0) {
-        const convertID = `${idDate.getDate()}${idDate.getMonth() + 1}${idDate.getFullYear()}`;
+        const convertID = `${addZero(idDate.getDate())}${addZero(idDate.getMonth() + 1)}${idDate.getFullYear()}`;
         setRangeId([convertID]);
         setStartAndendDate((prevState) => ({
           ...prevState,
-          startDate: idDate,
+          startDate: setCurrentTime(idDate),
         }));
         setInRange();
-      } else if (rangeId.length === 1) {
+      } else if (rangeId.length === 1 && formatDay(idDate) !== formatDay(startAndendDate.startDate)) {
         let getStartDate;
         let getEndDate;
         const findGreater = new Date(startAndendDate.startDate) < idDate;
@@ -123,28 +125,27 @@ function CustomCalender({
           getStartDate = idDate;
           getEndDate = startAndendDate.startDate;
         }
-
         const range = dateRange(new Date(getStartDate), new Date(getEndDate));
-        const allRangeDate = range.map((date) => `${date.getDate()}${date.getMonth() + 1}${date.getFullYear()}`);
+        const allRangeDate = range.map((date) => `${addZero(date.getDate())}${addZero(date.getMonth() + 1)}${date.getFullYear()}`);
 
         setRangeId(allRangeDate);
         setInRange();
         if (findGreater) {
           setStartAndendDate({
             startDate: startAndendDate.startDate,
-            endDate: idDate,
+            endDate: setCurrentTime(idDate),
           });
         } else {
           setStartAndendDate({
-            startDate: idDate,
+            startDate: setCurrentTime(idDate),
             endDate: startAndendDate.startDate,
           });
         }
       } else {
-        const convertID = `${idDate.getDate()}${idDate.getMonth() + 1}${idDate.getFullYear()}`;
+        const convertID = `${addZero(idDate.getDate())}${addZero(idDate.getMonth() + 1)}${idDate.getFullYear()}`;
         setRangeId([convertID]);
         setStartAndendDate({
-          startDate: idDate,
+          startDate: setCurrentTime(idDate),
         });
       }
     },
@@ -166,12 +167,12 @@ function CustomCalender({
       switch (selectType) {
         case "single":
           setBaseId([id]);
-          setStartDate(new Date(actualDateId));
+          setStartDate(setCurrentTime(actualDateId));
           break;
         case "multiple":
           if (!baseId.includes(id)) {
             setBaseId((oldArray) => [...oldArray, id]);
-            setMultipleDate((oldArray) => [...oldArray, new Date(actualDateId)]);
+            setMultipleDate((oldArray) => [...oldArray, setCurrentTime(actualDateId)]);
           } else {
             const findedId = baseId.findIndex((li) => li === id);
             const removedSelect = baseId.filter((_i, index) => findedId !== index);
@@ -217,8 +218,8 @@ function CustomCalender({
       if (i <= getStartDay) {
         noOfDate.push(<td />);
       } else {
-        const dateId = `${i - getStartDay}${dynMonth}${dynYear}`;
-        const dateTypeId = `${dynYear}-${dynMonth}-${i - getStartDay}`;
+        const dateId = `${addZero(i - getStartDay)}${addZero(dynMonth)}${dynYear}`;
+        const dateTypeId = `${dynYear}-${addZero(dynMonth)}-${addZero(i - getStartDay)}`;
 
         // range classname for start,between and end
         let rangeHightLight;
@@ -433,20 +434,20 @@ function CustomCalender({
       const getEndDate = id.endDateFromField;
 
       const range = dateRange(new Date(getStartDate), new Date(getEndDate));
-      const allRangeDate = range.map((date) => `${date.getDate()}${date.getMonth() + 1}${date.getFullYear()}`);
+      const allRangeDate = range.map((date) => `${addZero(date.getDate())}${addZero(date.getMonth() + 1)}${date.getFullYear()}`);
 
       setRangeId(allRangeDate);
       setStartAndendDate({
-        startDate: new Date(id.startDateFromField),
-        endDate: new Date(id.endDateFromField),
+        startDate: setCurrentTime(id.startDateFromField),
+        endDate: setCurrentTime(id.endDateFromField),
       });
     } else {
       const idDate = new Date(id.startDateFromField || id.endDateFromField);
-      const convertID = `${idDate.getDate()}${idDate.getMonth() + 1}${idDate.getFullYear()}`;
+      const convertID = `${addZero(idDate.getDate())}${addZero(idDate.getMonth() + 1)}${idDate.getFullYear()}`;
       setRangeId([convertID]);
       setStartAndendDate((prevState) => ({
         ...prevState,
-        startDate: new Date(id.startDateFromField) || new Date(id.endDateFromField),
+        startDate: setCurrentTime(id.startDateFromField) || setCurrentTime(id.endDateFromField),
       }));
     }
 
@@ -470,7 +471,7 @@ function CustomCalender({
       const selDt = new Date(da.startDateFromField);
       const fieldFindDaysInMonth = new Date(selDt.getFullYear(), selDt.getMonth() + 1, 0).getDate();
       const fieldFindStartDayInMonth = new Date(selDt.getFullYear(), selDt.getMonth(), 1).getDay();
-      const dateIdFromFiled = `${selDt.getDate()}${selDt.getMonth() + 1}${selDt.getFullYear()}`;
+      const dateIdFromFiled = `${addZero(selDt.getDate())}${addZero(selDt.getMonth() + 1)}${selDt.getFullYear()}`;
       const actualDateFromFiled = `${selDt.getFullYear()}-${selDt.getMonth() + 1}-${selDt.getDate()}`;
 
       setDynYear(selDt.getFullYear());
@@ -481,12 +482,12 @@ function CustomCalender({
       switch (selectType) {
         case "single":
           setBaseId([dateIdFromFiled]);
-          setStartDate(new Date(actualDateFromFiled));
+          setStartDate(setCurrentTime(actualDateFromFiled));
           break;
         case "multiple":
           if (!baseId.includes(dateIdFromFiled)) {
             setBaseId((oldArray) => [...oldArray, dateIdFromFiled]);
-            setMultipleDate((oldArray) => [...oldArray, new Date(actualDateFromFiled)]);
+            setMultipleDate((oldArray) => [...oldArray, setCurrentTime(actualDateFromFiled)]);
           }
           break;
         default:
@@ -511,7 +512,7 @@ function CustomCalender({
     return selDate;
   };
 
-  console.log(rangeId, startDate, multipleDate, startAndendDate, dynYear, dynMonth, "actualDate");
+  // console.log(rangeId, startDate, multipleDate, startAndendDate, dynYear, dynMonth, "actualDate");
   return (
     <div
       className={`${

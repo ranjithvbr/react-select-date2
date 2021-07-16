@@ -1,3 +1,4 @@
+import { formatDay } from "../cldDisable";
 /**
  * @param {object} date contain date
  * @param {number} addupDay to plus one date
@@ -16,7 +17,7 @@ const addDays = (date, addupDay = 1) => {
  * @returns {string} returns dateRange
  */
 const dateRange = (start, end, range = []) => {
-  if (start > end) return range;
+  if (new Date(formatDay(start)) > new Date(formatDay(end))) return range;
   const next = addDays(start, 1);
   return dateRange(next, end, [...range, start]);
 };

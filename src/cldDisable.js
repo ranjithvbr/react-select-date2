@@ -136,3 +136,25 @@ export function getDisableWhenRange(disableCertainDate, dateTypeId, rangeStartDa
   }
   return disableWhenRange;
 }
+
+/**
+ * @param {string} date date object 
+ * @returns date object with current time
+ */
+export function setCurrentTime(date){
+  const changeTime = new Date(date)
+  const now = new Date()
+  changeTime.setHours(now.getHours())
+  changeTime.setMinutes(now.getMinutes())
+  changeTime.setSeconds(now.getSeconds())
+  changeTime.setMilliseconds(now.getMilliseconds())
+  return changeTime;
+}
+
+/**
+ * @param {Number} num number
+ * @returns number if length 1 returns with zero
+ */
+export function addZero(num) {
+  return num > 9 ? num : "0" + num
+}

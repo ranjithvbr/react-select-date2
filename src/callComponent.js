@@ -23,24 +23,24 @@ function CallComponent() {
   //   { date: "2021-07-28", avaliableSlot: 32 },
   // ];
 
-  const duelSlotDates = [
-    { date: "2021-07-02", totalSlot: "30", avaliableSlot: "4" },
-    { date: "2021-07-10", totalSlot: "30", avaliableSlot: "5" },
-    { date: "2021-07-05", totalSlot: "280", avaliableSlot: "160" },
-    { date: "2021-07-07", totalSlot: "30", avaliableSlot: "14" },
-    { date: "2021-07-08", totalSlot: "5", avaliableSlot: "3" },
-    { date: "2021-07-11", totalSlot: "50", avaliableSlot: "23" },
-    { date: "2021-07-13", totalSlot: "44", avaliableSlot: "44" },
-    { date: "2020-07-12", totalSlot: "50", avaliableSlot: "24" },
-    { date: "2021-7-14", totalSlot: "50", avaliableSlot: "0" },
-    { date: "2021-07-15", totalSlot: "50", avaliableSlot: "17" },
-    { date: "2021-07-16", totalSlot: "50", avaliableSlot: "30" },
-    { date: "2021-07-21", totalSlot: "80", avaliableSlot: "30" },
-    { date: "2021-07-23", totalSlot: "80", avaliableSlot: "44" },
-    { date: "2021-07-26", totalSlot: "30", avaliableSlot: "22" },
-    { date: "2021-07-28", totalSlot: "30", avaliableSlot: "30" },
-    { date: "2021-07-03", totalSlot: "30", avaliableSlot: "25" },
-  ];
+  // const duelSlotDates = [
+  //   { date: "2021-07-02", totalSlot: "30", avaliableSlot: "4" },
+  //   { date: "2021-07-10", totalSlot: "30", avaliableSlot: "5" },
+  //   { date: "2021-07-05", totalSlot: "280", avaliableSlot: "160" },
+  //   { date: "2021-07-07", totalSlot: "30", avaliableSlot: "14" },
+  //   { date: "2021-07-08", totalSlot: "5", avaliableSlot: "3" },
+  //   { date: "2021-07-11", totalSlot: "50", avaliableSlot: "23" },
+  //   { date: "2021-07-13", totalSlot: "44", avaliableSlot: "44" },
+  //   { date: "2020-07-12", totalSlot: "50", avaliableSlot: "24" },
+  //   { date: "2021-7-14", totalSlot: "50", avaliableSlot: "0" },
+  //   { date: "2021-07-15", totalSlot: "50", avaliableSlot: "17" },
+  //   { date: "2021-07-16", totalSlot: "50", avaliableSlot: "30" },
+  //   { date: "2021-07-21", totalSlot: "80", avaliableSlot: "30" },
+  //   { date: "2021-07-23", totalSlot: "80", avaliableSlot: "44" },
+  //   { date: "2021-07-26", totalSlot: "30", avaliableSlot: "22" },
+  //   { date: "2021-07-28", totalSlot: "30", avaliableSlot: "30" },
+  //   { date: "2021-07-03", totalSlot: "30", avaliableSlot: "25" },
+  // ];
 
   // const disableCertainDates = ["2021-05-04", "2021-06-07", "2021-07-8", "2021-07-15"];
 
