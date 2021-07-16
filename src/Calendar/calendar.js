@@ -13,17 +13,17 @@ import {
 } from "../cldDisable";
 import { SelectMonthField, SelectYearField } from "../Fields/cldSelectField";
 import dateRange from "./dateRange";
-import "./calender.css";
+import "./calendar.css";
 import Legends from "../Legends/legends";
 
 const currentdate = new Date();
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /**
- * @param {*} props all the props needed for customize the calender
- * @returns {React.ReactElement} returns a calender with single, multiple and range with slots options
+ * @param {*} props all the props needed for customize the calendar
+ * @returns {React.ReactElement} returns a calendar with single, multiple and range with slots options
  */
-function CustomCalender({
+function Calendar({
   selectDateType,
   disableDates,
   disableCertainDates,
@@ -58,7 +58,6 @@ function CustomCalender({
     return duelSlotDates || [];
   }, [duelSlotDates]);
 
-  // const [selectType] = useState("range");
   const [getDate, setGetDate] = useState(findDaysInMonth);
   const [getStartDay, setGetStartDay] = useState(findStartDayInMonth);
   const [calenderDates, setCalenderDates] = useState();
@@ -498,7 +497,7 @@ function CustomCalender({
   };
 
   /**
-   *@returns {string} seletedDate from calender single || multiple || range
+   *@returns {string} seletedDate from calendar single || multiple || range
    */
   const selectedDateFromCldFunc = () => {
     let selDate;
@@ -588,7 +587,7 @@ function CustomCalender({
   );
 }
 
-CustomCalender.propTypes = {
+Calendar.propTypes = {
   selectDateType: PropTypes.string,
   disableDates: PropTypes.arrayOf(PropTypes.object),
   disableCertainDates: PropTypes.array,
@@ -604,7 +603,7 @@ CustomCalender.propTypes = {
   templateClr: PropTypes.string,
 };
 
-CustomCalender.defaultProps = {
+Calendar.defaultProps = {
   selectDateType: "",
   disableDates: [],
   disableCertainDates: [],
@@ -619,4 +618,4 @@ CustomCalender.defaultProps = {
   templateClr: "",
 };
 
-export default CustomCalender;
+export default Calendar;

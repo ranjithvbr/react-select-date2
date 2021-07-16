@@ -283,6 +283,8 @@
 .cld_currentDay.cld_highlightNum::before,
 .cld_currentDay.cld_highlightLastNum::before,
 .cld_currentDay.cld_highlightFirstNum::before,
-.cld_currentDay.cld_highlightNumCircle::before {
+.cld_currentDay.cld_highlightNumCircle::before,
+.cld_disablebgColor.cld_currentDay::before {
   background: #ffffff;
 }
+
