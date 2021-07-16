@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./cldSelectField.css";
 
 const months = [
   "January",
@@ -21,7 +22,7 @@ const currentDate = new Date();
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect }) {
+export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect, showMonthArrow }) {
   /**
    * @param {number} index contain id
    * @returns {boolean} returns a boolean value
@@ -39,7 +40,13 @@ export function SelectMonthField({ disableState, dynMonth, dynYear, handleChange
   };
 
   return (
-    <select id="selectMonth" value={dynMonth - 1} onChange={(e) => handleChangeSelect(e)}>
+    <select
+      disabled={showMonthArrow}
+      className={`${showMonthArrow && "cld_disableArrow"}`}
+      id="selectMonth"
+      value={dynMonth - 1}
+      onChange={(e) => handleChangeSelect(e)}
+    >
       {months.map((data, index) => {
         return (
           <option disabled={disableMonthFunc(index)} key={data} value={index}>
@@ -52,21 +59,22 @@ export function SelectMonthField({ disableState, dynMonth, dynYear, handleChange
 }
 
 SelectMonthField.propTypes = {
-  disableState: PropTypes.string,
+  disableState: PropTypes.array,
   dynMonth: PropTypes.number.isRequired,
   dynYear: PropTypes.number.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
+  showMonthArrow: PropTypes.bool.isRequired,
 };
 
 SelectMonthField.defaultProps = {
-  disableState: "",
+  disableState: [],
 };
 
 /**
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect }) {
+export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect, showYearArrow }) {
   /**
    *
    * @returns {Array} returns no. of year values
@@ -80,7 +88,13 @@ export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeS
     return yearoption;
   };
   return (
-    <select id="selectYear" value={dynYear} onChange={(e) => handleChangeSelect(e)}>
+    <select
+      disabled={showYearArrow}
+      className={`${showYearArrow && "cld_disableArrow"}`}
+      id="selectYear"
+      value={dynYear}
+      onChange={(e) => handleChangeSelect(e)}
+    >
       {yearOptions().map((data) => {
         return (
           <option key={data} value={data}>
@@ -96,4 +110,5 @@ SelectYearField.propTypes = {
   dynYear: PropTypes.number.isRequired,
   startAndendYearOptions: PropTypes.object.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
+  showYearArrow: PropTypes.bool.isRequired,
 };
