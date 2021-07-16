@@ -511,7 +511,7 @@ function CustomCalender({
     return selDate;
   };
 
-  // console.log(startDate, multipleDate, startAndendDate, rangeId, dynYear, dynMonth, "actualDate");
+  console.log(rangeId, startDate, multipleDate, startAndendDate, dynYear, dynMonth, "actualDate");
   return (
     <div
       className={`${

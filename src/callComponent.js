@@ -47,10 +47,10 @@ function CallComponent() {
   return (
     <>
       <CustomCalender
-        duelSlotDates={duelSlotDates}
+        // duelSlotDates={duelSlotDates}
         // singleSlotDates={singleSlotDates}
         selectDateType="range"
-        disableDates="past"
+        // disableDates="past"
         // disableCertainDates={disableCertainDates}
         onSelect={(data) => console.log(data, "data")}
         // slotInfo={true}
@@ -60,11 +60,6 @@ function CallComponent() {
         // showYearArrow={true}
         // showDatelabel={true}
         templateClr="blue"
-      />
-      <CustomCalender 
-      selectDateType="single"
-      templateClr="green"
-      // duelSlotDates={duelSlotDates}
       />
     </>
   );
