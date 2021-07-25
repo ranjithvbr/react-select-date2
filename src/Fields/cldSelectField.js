@@ -22,7 +22,7 @@ const currentDate = new Date();
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect, showMonthArrow }) {
+export function SelectMonthField({ disableState, dynMonth, dynYear, handleChangeSelect, showSelectMonthArrow }) {
   /**
    * @param {number} index contain id
    * @returns {boolean} returns a boolean value
@@ -41,8 +41,8 @@ export function SelectMonthField({ disableState, dynMonth, dynYear, handleChange
 
   return (
     <select
-      disabled={showMonthArrow}
-      className={`${showMonthArrow && "cld_disableArrow"}`}
+      disabled={showSelectMonthArrow}
+      className={`${showSelectMonthArrow && "cld_disableArrow"}`}
       id="selectMonth"
       value={dynMonth - 1}
       onChange={(e) => handleChangeSelect(e)}
@@ -63,7 +63,7 @@ SelectMonthField.propTypes = {
   dynMonth: PropTypes.number.isRequired,
   dynYear: PropTypes.number.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
-  showMonthArrow: PropTypes.bool.isRequired,
+  showSelectMonthArrow: PropTypes.bool.isRequired,
 };
 
 SelectMonthField.defaultProps = {
@@ -74,7 +74,7 @@ SelectMonthField.defaultProps = {
  * @param {*} props all props
  * @returns {object} returns a select field(Month)
  */
-export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect, showYearArrow }) {
+export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeSelect, showSelectYearArrow }) {
   /**
    *
    * @returns {Array} returns no. of year values
@@ -89,8 +89,8 @@ export function SelectYearField({ dynYear, startAndendYearOptions, handleChangeS
   };
   return (
     <select
-      disabled={showYearArrow}
-      className={`${showYearArrow && "cld_disableArrow"}`}
+      disabled={showSelectYearArrow}
+      className={`${showSelectYearArrow && "cld_disableArrow"}`}
       id="selectYear"
       value={dynYear}
       onChange={(e) => handleChangeSelect(e)}
@@ -110,5 +110,5 @@ SelectYearField.propTypes = {
   dynYear: PropTypes.number.isRequired,
   startAndendYearOptions: PropTypes.object.isRequired,
   handleChangeSelect: PropTypes.func.isRequired,
-  showYearArrow: PropTypes.bool.isRequired,
+  showSelectYearArrow: PropTypes.bool.isRequired,
 };

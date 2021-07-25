@@ -1,5 +1,5 @@
 # react-select-date
-A React Calender that consists of between single-date, multiple-date, range and slots booking features.Purely date calculated from JavaScript Date Object.
+A React Calendar that consists of between single-date, multiple-date, range and slots booking features.Purely date calculated from JavaScript Date Object.
 
 Live Demo: ---Work in progress---
 
@@ -19,11 +19,11 @@ Run `npm i react-select-date`
 
 ### `SingelDate`
 ```javascript
-import Calender from "react-select-date";
+import Calendar from "react-select-date";
 
 function MyComponent() {
   return (
-      <Calender 
+      <Calendar 
         onSelect={(date) => console.log(date)}
       />
   );
@@ -35,11 +35,11 @@ export default MyComponent;
 
 ### `DateRange`
 ```javascript
-import Calender from "react-select-date";
+import Calendar from "react-select-date";
 
 function MyComponent() {
   return (
-      <Calender 
+      <Calendar 
         onSelect={(date) => console.log(date)}
         selectDateType="range"
         // select template color
@@ -54,7 +54,7 @@ export default MyComponent;
 
 ### `Multiple With DuelSlots`
 ```javascript
-import Calender from "react-select-date";
+import Calendar from "react-select-date";
 
 function MyComponent() {
   const duelSlotDates = [
@@ -64,7 +64,7 @@ function MyComponent() {
       { date: "2021-07-07", totalSlot: "30", avaliableSlot: "14" },
     ]
   return (
-      <Calender
+      <Calendar
         onSelect={(date) => console.log(date)}
         selectDateType="multiple"
         duelSlotDates={duelSlotDates}
@@ -89,11 +89,11 @@ disableDates                         | String    |                  | disables t
 slotInfo                             | Boolean   | true             | show/hide visibility of slotInfo
 showDatelabel                        | Boolean   | false            | show/hide visibility of label for date input
 showDateInputField                   | Boolean   | true             | show/hide visibility of date input
-showMonthArrow                       | Boolean   | false            | whether month select field can be editable and visibility of arrow
-showYearArrow                        | Boolean   | false            | whether year select field can be editable and visibility of arrow 
+showSelectMonthArrow                       | Boolean   | false            | whether month select field can be editable and visibility of arrow
+showSelectYearArrow                        | Boolean   | false            | whether year select field can be editable and visibility of arrow 
 showArrow                            | Boolean   | true             | show/hide visibility of left arrow and right arrow
 
-### About Calender
+### About Calendar
 This Calendar was developed using Hooks and Javascript date object without any dependencies. The calendar has options where users can choose between single-date, multiple-date, range and slots booking features.
 
 
@@ -104,7 +104,7 @@ The single-date selection is a fully controlled component that allows users to s
 The multiple Date selection is a fully controlled component that allows users to select multiple dates. The functionality is same as single-date to select the dates.
 
 #### DateRange
-The dateRange is a fully controlled component that allows users to select a date range. The user can select the date range from either the `date-input` field or the calender table. Selected dates can be controlled using `onSelect` props. The DateRange also manages internal state for partial dates that are manually entered(Although onSelect will not trigger until a date has been filled completely. In that case, `date-input` field will throw an error message if the date is not valid).
+The dateRange is a fully controlled component that allows users to select a date range. The user can select the date range from either the `date-input` field or the calendar table. Selected dates can be controlled using `onSelect` props. The DateRange also manages internal state for partial dates that are manually entered(Although onSelect will not trigger until a date has been filled completely. In that case, `date-input` field will throw an error message if the date is not valid).
 
 #### Slots
 Slots booking is a fully controlled component that allows users to view the avilable and total slots. In slots booking, the user can change the type of selection through `selectDateType` props. The user can display only avilable slots by sending singleSlotDates value, In order to view avilable slots and total slots the user needs to send duelSlotDates value(It should be noted that user cannot send both the `singleSlotDates` and `duelSlotDates` at the same time).

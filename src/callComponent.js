@@ -47,17 +47,17 @@ function CallComponent() {
   return (
     <>
       <Calendar
-        duelSlotDates={duelSlotDates}
+        // duelSlotDates={duelSlotDates}
         // singleSlotDates={singleSlotDates}
-        selectDateType="range"
+        selectDateType="single"
         // disableDates="past"
-        disableCertainDates={disableCertainDates}
+        // disableCertainDates={disableCertainDates}
         onSelect={(data) => console.log(data, "data")}
         // slotInfo={true}
         // showDateInputField={false}
         // showArrow={false}
-        // showMonthArrow={true}
-        // showYearArrow={true}
+        showSelectMonthArrow={true}
+        showSelectYearArrow={true}
         // showDatelabel={true}
         templateClr="blue"
       />

@@ -33,8 +33,8 @@ function Calendar({
   slotInfo = true,
   showDateInputField = true,
   showArrow = true,
-  showMonthArrow,
-  showYearArrow,
+  showSelectMonthArrow,
+  showSelectYearArrow,
   showDatelabel,
   templateClr,
 }) {
@@ -112,7 +112,7 @@ function Calendar({
           ...prevState,
           startDate: setCurrentTime(idDate),
         }));
-        setInRange();
+        setInRange(null);
       } else if (rangeId.length === 1 && formatDay(idDate) !== formatDay(startAndendDate.startDate)) {
         let getStartDate;
         let getEndDate;
@@ -128,7 +128,7 @@ function Calendar({
         const allRangeDate = range.map((date) => `${addZero(date.getDate())}${addZero(date.getMonth() + 1)}${date.getFullYear()}`);
 
         setRangeId(allRangeDate);
-        setInRange();
+        setInRange(null);
         if (findGreater) {
           setStartAndendDate({
             startDate: startAndendDate.startDate,
@@ -546,13 +546,13 @@ function Calendar({
               dynMonth={dynMonth}
               dynYear={dynYear}
               handleChangeSelect={(e) => handleSelectMonth(e)}
-              showMonthArrow={showMonthArrow}
+              showSelectMonthArrow={showSelectMonthArrow}
             />
             <SelectYearField
               startAndendYearOptions={startAndendYearOptions}
               dynYear={dynYear}
               handleChangeSelect={(e) => handleSelectYear(e)}
-              showYearArrow={showYearArrow}
+              showSelectYearArrow={showSelectYearArrow}
             />
           </div>
           {showArrow && (
@@ -566,7 +566,7 @@ function Calendar({
           )}
         </div>
       </div>
-      <table onMouseLeave={rangeId.length === 1 ? () => setInRange() : null}>
+      <table onMouseLeave={rangeId.length === 1 ? () => setInRange(null) : null}>
         <thead>
           <tr>
             {days.map((d) => (
@@ -597,8 +597,8 @@ Calendar.propTypes = {
   slotInfo: PropTypes.bool,
   showDateInputField: PropTypes.bool,
   showArrow: PropTypes.bool,
-  showMonthArrow: PropTypes.bool,
-  showYearArrow: PropTypes.bool,
+  showSelectMonthArrow: PropTypes.bool,
+  showSelectYearArrow: PropTypes.bool,
   showDatelabel: PropTypes.bool,
   templateClr: PropTypes.string,
 };
@@ -612,8 +612,8 @@ Calendar.defaultProps = {
   slotInfo: true,
   showDateInputField: true,
   showArrow: true,
-  showMonthArrow: false,
-  showYearArrow: false,
+  showSelectMonthArrow: false,
+  showSelectYearArrow: false,
   showDatelabel: false,
   templateClr: "",
 };
