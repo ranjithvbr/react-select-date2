@@ -3,7 +3,7 @@ A React Calendar that consists of between single-date, multiple-date, range and 
 
 Live Demo: ---Work in progress---
 
-#### Single and Multiple select
+#### Range and Multiple select
 ![](https://user-images.githubusercontent.com/37235948/125201244-d6fa6e00-e28b-11eb-9761-4f0760ad357b.png)
 
 #### Single and Duel slots
