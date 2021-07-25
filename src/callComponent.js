@@ -6,9 +6,7 @@ import Calendar from "./Calendar/calendar";
  */
 function CallComponent() {
   return (
-      <Calendar
-        onSelect={(data) => console.log(data, "data")}
-      />
+      <Calendar />
   );
 }
 
